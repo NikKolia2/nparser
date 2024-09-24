@@ -1,0 +1,2 @@
+*/5 * * * * cd /parser/services/parser/cron && php checkSuccessParsing.php
+

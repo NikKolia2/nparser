@@ -1,0 +1,15 @@
+#! /usr/bin/bash
+
+# add config/.env
+export $(cat ./config/.env|xargs)
+export $(cat ./config/colors|xargs)
+
+
+echo -e "${Green}
+    ┌─┐┬ ┬┌─┐┌─┐┬─┐  ┌─┐┌─┐┌─┐┬  ┌─┐┬─┐
+    └─┐│ │├─┘├┤ ├┬┘  ├─┤│ ┬├┤ │  ├─┤├┬┘
+    └─┘└─┘┴  └─┘┴└─  ┴ ┴└─┘└─┘┴─┘┴ ┴┴└─
+${Color_Off}";
+  echo -e "Начинаем остановку контейнеров"
+  docker compose -f docker-compose.yml --env-file ./config/.env down
+  echo -e "${Green}Контейнеры были остановлены, сеть удалена ${Color_Off}"
