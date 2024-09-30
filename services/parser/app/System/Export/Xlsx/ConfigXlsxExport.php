@@ -2,19 +2,19 @@
 
 namespace App\System\Export\Xlsx;
 
+use App\System\Export\ConfigExporter;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ConfigXlsxExport
+class ConfigXlsxExport extends ConfigExporter
 {
    
     public function __construct(
-        public readonly string $storagePath,
-        public readonly string $actionsPath,
+        string $storagePath,
         public readonly string $ext = "xlsx",
         public readonly array $views = [],
         public readonly array $bildersData = [],
     ){
-      
+      parent::__construct($storagePath);
     }
 
     public function getSystemActionPath():string{

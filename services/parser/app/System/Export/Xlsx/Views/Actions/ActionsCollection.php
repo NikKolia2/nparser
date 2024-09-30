@@ -28,7 +28,7 @@ class ActionsCollection
                 $views[] = $this->view;
 
                 foreach($views as $view){
-                    if(HelperService::instanceOfByNamespace($action::getView, $view)){
+                    if(HelperService::instanceOfByNamespace($action::getView(), $view)){
                         return true;
                     }
                 }

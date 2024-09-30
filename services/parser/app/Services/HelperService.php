@@ -49,17 +49,23 @@ class HelperService
 
             $path = $directory . '/' . $file;
 
-
+         
             if (is_file($path) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
                 require_once $path;
-
+                
                 $className = basename($file, '.php');
+                
+                $cls = explode("app/", $directory);
+               
+                if(isset($cls[1])){
+                  
+                    $namespace = "\\App\\" . str_replace("/", "\\", $cls[1]);
+               
 
-                $namespace = "\\App\\" . str_replace("/", "\\", explode("src/", $directory)[1]);
+                    if (class_exists($namespace . "\\" . $className)) {
 
-                if (class_exists($namespace . "\\" . $className)) {
-
-                    $callback($namespace . "\\" . $className);
+                        $callback($namespace . "\\" . $className);
+                    }
                 }
             } elseif (is_dir($path)) {
 
@@ -92,5 +98,14 @@ class HelperService
         }
     
         return $parents;
+    }
+
+    public static function clearAllHTMLFiles(string $path){
+        $files = glob($path."*"); // get all file names
+        foreach($files as $file){ // iterate files
+            if(is_file($file)) {
+                unlink($file); // delete file
+            }
+        }
     }
 }

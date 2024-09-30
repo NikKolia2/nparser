@@ -14,6 +14,7 @@ foreach ($envs as $env) {
 
 // подменим название базы данных на ту, что указана в локальном .env
 $globalConfig['database']['name'] = getenv('DB_NAME');
+$globalConfig['storage']["path"] = dirname(__DIR__, 3)."/storage";
 
 // agelar user pdo
 $dsn = "mysql:host={$globalConfig['database']['host']};dbname={$globalConfig['database']['name']};charset={$globalConfig['database']['charset']}";

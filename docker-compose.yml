@@ -37,7 +37,7 @@ services:
      - /dev/shm:/dev/shm
   cron:
     build: ./docker/cron/
-    container_name: parser_cron
+    container_name: nparser_cron
     working_dir: /parser
     stdin_open: true
     tty: true

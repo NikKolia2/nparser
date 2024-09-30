@@ -1,6 +1,10 @@
 <?php
 
+
 use App\System\Export\Xlsx\SimpleSettingsData;
+use App\System\Export\Xlsx\Views\Actions\ActionGetVar;
+use App\System\Export\Xlsx\Views\Vars\CharacteristicsKeysVar;
+use App\System\Export\Xlsx\Views\Vars\CharacteristicsNamesVar;
 
 return [
     "xlsx" => [
@@ -20,9 +24,12 @@ return [
                 "data" => [
                     "data" => SimpleSettingsData::create([
                         'code', 'h1', 'Фото', 'Path', 'Description', 'Complectation', 'Keywords',
-                        'Brand', 'Country', 'информация об упаковке', 'Технические характеристики'
+                        'Brand', 'Country', 'информация об упаковке', 'Технические характеристики', 
+                        ActionGetVar::init(CharacteristicsNamesVar::$name),
                     ], [
-                        "", "h1"
+                        "article", "h1", "images", "breadcrumbs", "description", 'complectation', 'keywords', 
+                        'brand', 'country', 'infoPack','allOptions',  
+                        ActionGetVar::init(CharacteristicsKeysVar::$name)
                     ]),
                     
                     "config" => [

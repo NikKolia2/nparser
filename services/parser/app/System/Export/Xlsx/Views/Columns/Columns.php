@@ -33,7 +33,7 @@ class Columns
         $columns = new Columns();
         
         foreach($data as $indexColumn => $item){
-            $item["coords"] = [$indexColumn, $indexRow];
+            //$item["coords"] = [$indexColumn, $indexRow];
             $columns->add(new Column(...$item));
         }
 

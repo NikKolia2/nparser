@@ -20,9 +20,9 @@ class Parser
             if(empty($processes)) continue;
             $urls = array_map(fn($obj) => $obj->url, $processes);
             $processModel->setStatusParsing($urls);
-            echo 2;
+           
             foreach($processes as $process){
-                echo 1;
+              
                 $pathToFile = $this->config->getPathFileByUrl($process->url);
                 $namespace = $process->namespace;
              
@@ -30,7 +30,7 @@ class Parser
                 if($viewParser->execute()){
                     $processModel->setStatusSuccess($process->url);
                 }
-                echo 3;
+              
             }
         }
     }

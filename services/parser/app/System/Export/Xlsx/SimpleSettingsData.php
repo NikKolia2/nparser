@@ -1,6 +1,8 @@
 <?php
 
 namespace App\System\Export\Xlsx;
+use App\Export\Xlsx\Views\Actions\AbstractAction;
+use App\System\Export\Xlsx\Views\Actions\ExecuteAction;
 
 class SimpleSettingsData
 {
@@ -26,10 +28,30 @@ class SimpleSettingsData
 
     protected function createRow(array $columns):array{
         $row = ["columns" => []];
-        foreach($columns as $column){
-            $row["columns"][] = [
-                "value" => $column
-            ];
+       
+        $isColumn = true;
+        $iteration = -1;
+        while($isColumn){
+            $i = $iteration + 1;
+            if(isset($columns[$i])){
+                $column = $columns[$i];
+                if($column instanceof ExecuteAction){
+                    $action = $column;
+                    unset($columns[$i]);
+                    $columns = array_values($columns);
+                   
+                    $columns = array_merge($columns, $action->execute());
+                    $column = $columns[$i];
+                }
+
+                $row["columns"][] = [
+                    "value" => $column
+                ];
+
+                $iteration = $i;
+            }else{
+                $isColumn = false;
+            }
         }
 
         return $row;

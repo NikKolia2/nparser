@@ -9,9 +9,24 @@ abstract class AbstractAction
 {
     public static $name;
 
-    abstract public function execute(Column $column);
+    public function execute($value):mixed {
+        if($value instanceof Column){
+            $value = $value->value;
+        }
+
+        if($value instanceof AbstractAction || $value instanceof ExecuteAction){
+            $value = $value->execute();
+        }
+
+        return $value;
+    }
 
     public static function getView():string{
         return View::class;
+    }
+
+    public static function init($value):ExecuteAction{
+        $action = new static();
+        return new ExecuteAction($action, $value);
     }
 }

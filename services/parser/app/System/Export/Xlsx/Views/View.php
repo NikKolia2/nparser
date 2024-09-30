@@ -45,7 +45,7 @@ class View
                 $column = $row->columns->item($j);
                 $newColumn = new Column($column->value, $column->actions);
                 $newRow->addColumn($newColumn);
-                $newColumn->runActions(EnumRunTime::BEFORE_GENREATE_BODY);
+                //$newColumn->runActions(EnumRunTime::BEFORE_GENREATE_BODY);
             }
 
             $newRows->add($newRow);
@@ -66,12 +66,12 @@ class View
                 if(isset($item[$column->value])){
                    $value = $item[$column->value];
                 }else{
-                    $value = $column->value;
+                    $value = '';//$column->value;
                 }
 
                 $newColumn = new Column($value, $column->actions);
                 $newRow->addColumn($newColumn);
-                $newColumn->runActions(EnumRunTime::GENERATE_BODY);
+                //$newColumn->runActions(EnumRunTime::GENERATE_BODY);
             }
 
             $newRows->add($newRow);
@@ -109,7 +109,6 @@ class View
          
             $rows->merge($this->getBodyRows($dataBody, $settingRows));
         }      
-
         
         $rows->executeActionsByRunTime(EnumRunTime::AFTER_GENERATE_BODY);
         $worksheet = $this->createSheet($this->config->name);
@@ -123,7 +122,6 @@ class View
                 $column = $columns->item($j);
                 $worksheet->setCellValue([$indexColumn,$indexRow], $column->value);
             }
-
         }
 
         return $this->spreadsheet;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Product;
+use PDO;
 use App\Models\Model;
 
 class ProductImagesModel extends Model
@@ -14,5 +15,13 @@ class ProductImagesModel extends Model
         $stm = $query->execute();
 
         return $stm->rowCount();
+    }
+
+    public function getImagesByProductsIds(array $ids):array{
+        $query = $this->query()->from($this->table);
+        $query->select(["product_id", "url"]);
+        $query->where("product_id", $ids);
+        
+        return $this->pdo->query($query->getQueryString(true))->fetchAll(PDO::FETCH_GROUP);
     }
 }

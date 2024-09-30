@@ -192,4 +192,19 @@ class ProductView extends View
 
         return null;
     }
+
+    public function getAttributeWarehouse(){
+        $xpath = new DOMXPath($this->dom);
+        $node = $xpath->query("//*[@data-qa='product-delivery']//p[@data-qa='availability-info']//span[contains(text(), 'Есть на складе')]");
+        
+        if($node->length){
+            $str = $node->item(0)->textContent;
+           
+            if(preg_match("/Есть\s+на\s+складе\s+(\d+)\s+шт\./", str_replace("\n", "", trim($str)), $out)){
+                return trim(strip_tags($out[1]));
+            }
+        }
+
+        return null;
+    }
 }

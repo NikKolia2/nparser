@@ -44,7 +44,7 @@ $categoryItteration = 0;
 
     $headLines = [
         'code', 'h1', 'Фото', 'Path', 'Description', 'Complectation', 'Keywords',
-        'Brand', 'Country', 'информация об упаковке', 'Технические характеристики'
+        'Brand', 'Country', 'информация об упаковке', 'Технические характеристики', 'Есть на складе шт.'
     ];
 
     $i = 1;
@@ -117,7 +117,7 @@ $categoryItteration = 0;
         // частично заполняем его вручную
         $data = [
             $product['article'], $product['h1'], $images, $product['breadcrumbs'],
-            $product['description'], $product['complectation'], $product['keywords'], $product['brand'], $product['country'], $product['infoPack'], $allOptions
+            $product['description'], $product['complectation'], $product['keywords'], $product['brand'], $product['country'], $product['infoPack'],$allOptions, $product["warehouse"]
         ];
 
 
