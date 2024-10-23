@@ -23,6 +23,7 @@ class Loader
         $processName = uniqid("", true).".txt";
         file_put_contents($this->config->pathToProcessesDir.$processName, 1);
         while(file_exists($this->config->pathToProcessesDir.$processName)){
+            PLogger::log(Logger::INFO, "получаем группу ссылок");
             $data = $processModel->getCollectionUrlsNewProcess($this->config->limitUrlsInGroup);
            
             if(!empty($data)){
