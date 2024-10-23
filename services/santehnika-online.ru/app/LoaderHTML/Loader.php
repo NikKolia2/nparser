@@ -26,6 +26,7 @@ class Loader
                     $urls = array_column($data, "url");
                     $processModel->setStatusDownloading($urls);
                     $loaderService = $this->getLoaderService($data);
+                    echo 5;
                     $urls = array_keys($loaderService->loadAll());
                     $processModel->setStatusWaitParsingAndFlagDownloaded($urls);
                   

@@ -144,8 +144,9 @@ class LoaderService
 
     public function loadAll(): array{
         $result = [];
-      
+       
         while($response = $this->loadNext()){
+            echo 4;
             if($path = $this->save($response)){
                 $result[$response->url] = $path;
             }
