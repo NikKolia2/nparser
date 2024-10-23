@@ -35,5 +35,5 @@ RUN docker-php-ext-install \
     exif \
     gd
 
-RUN docker-php-ext-install \
-    fileinfo
+#RUN docker-php-ext-install \
+ #   fileinfo
