@@ -29,6 +29,7 @@ $loaderClient = new LoaderClient($driver, dirname(__DIR__, 2)."/storage/html/");
 $loader = new Loader($loaderClient, new LoaderConfig(
     requestTimeout: 100,
     pathDirStorageHTML: dirname(__DIR__, 2)."/storage/html/",
+    pathToProcessesDir:  dirname(__DIR__, 1)."/temp/processes/",
     limitUrlsInGroup: 20
 ));
 
