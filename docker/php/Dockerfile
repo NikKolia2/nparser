@@ -33,5 +33,7 @@ RUN docker-php-ext-install \
     soap \
     zip \
     exif \
-    fileinfo \
     gd
+
+#RUN docker-php-ext-install \
+ #   fileinfo
