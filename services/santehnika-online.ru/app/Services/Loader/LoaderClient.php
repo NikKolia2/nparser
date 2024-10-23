@@ -2,6 +2,8 @@
 
 namespace App\Services\Loader;
 
+use Monolog\Logger;
+use App\Services\PLogger;
 use Facebook\WebDriver\Cookie;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -90,7 +92,10 @@ class LoaderClient
                 $el->click();
                 $this->client->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")));
             }catch(NoSuchElementException|TimeoutException $e){
-                $this->client->takeScreenshot($this->dirSaveCaptcha."screen.png");
+                if($e instanceof TimeoutException){
+                    PLogger::log(Logger::ERROR, "Ошибка по таймауту. Страница {$loaderData['url']}");
+                    $this->client->takeScreenshot($this->dirSaveCaptcha."screen.png");
+                }
             }
         }else if($loaderData['type_id'] == 2){
             try {

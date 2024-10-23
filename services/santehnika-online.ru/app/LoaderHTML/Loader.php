@@ -6,6 +6,8 @@ use App\LoaderHTML\LoaderConfig;
 use App\Models\Process\ProcessModel;
 use App\Services\Loader\LoaderClient;
 use App\Services\Loader\LoaderService;
+use App\Services\PLogger;
+use Monolog\Logger;
 
 class Loader
 {
@@ -18,20 +20,21 @@ class Loader
 
     public function execute(){
         $processModel = new ProcessModel();
-        while(true){
+        $processName = uniqid("", true)."txt";
+        file_put_contents("temp/processes/".$processName, 1);
+        while(file_exists("temp/processes/".$processName)){
             $data = $processModel->getCollectionUrlsNewProcess($this->config->limitUrlsInGroup);
            
             if(!empty($data)){
                 try {
                     $urls = array_column($data, "url");
                     $processModel->setStatusDownloading($urls);
-                  
+
                     $loaderService = $this->getLoaderService($data);
-                    echo 5;
                     $urls = array_keys($loaderService->loadAll());
                     $processModel->setStatusWaitParsingAndFlagDownloaded($urls);
-                  
                 }catch(\Throwable $e){
+                    PLogger::log(Logger::ERROR, $e->getMessage());
                     throw $e;
                 }
             }
