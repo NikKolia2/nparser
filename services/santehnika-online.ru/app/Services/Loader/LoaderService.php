@@ -2,7 +2,9 @@
 
 namespace App\Services\Loader;
 
+use App\Services\PLogger;
 use Exception;
+use Monolog\Logger;
 
 class LoaderService
 {
@@ -57,6 +59,7 @@ class LoaderService
         if ($iteration <= count($this->stack) - 1) {
             $this->currentIteration = $iteration;
             $this->loaderResponse = $this->load($this->currentIteration, $this->parseAll, $this->stack);
+            PLogger::log(Logger::INFO, "Загружена страница ".$this->loaderResponse->url);
             return $this->loaderResponse;
         }
  
