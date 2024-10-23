@@ -24,12 +24,11 @@ $capabilities->setCapability(ChromeOptions::CAPABILITY_W3C, $chromeOptions);
 $driver = RemoteWebDriver::create($serverUrl, $capabilities);
 $driver->executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
 
-$loaderClient = new LoaderClient($driver, realpath("../../storage/html/")."/");
-
+$loaderClient = new LoaderClient($driver, dirname(__DIR__, 2)."/storage/html/");
 
 $loader = new Loader($loaderClient, new LoaderConfig(
     requestTimeout: 100,
-    pathDirStorageHTML: realpath("../../storage/html/")."/",
+    pathDirStorageHTML: dirname(__DIR__, 2)."/storage/html/",
     limitUrlsInGroup: 20
 ));
 
