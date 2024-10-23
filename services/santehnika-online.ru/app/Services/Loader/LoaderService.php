@@ -125,7 +125,10 @@ class LoaderService
             if (!file_exists($storagePath)) {
                 mkdir($storagePath, 0755, true);
             }
-    
+            
+            echo file_put_contents($pathStorageHTML, $response->html).PHP_EOL;
+            echo $pathStorageHTML.PHP_EOL;
+            die;
             if (file_put_contents($pathStorageHTML, $response->html) !== false) {
                 if(!$this->beforeSave($response, $pathStorageHTML)){
                     unlink($pathStorageHTML);
