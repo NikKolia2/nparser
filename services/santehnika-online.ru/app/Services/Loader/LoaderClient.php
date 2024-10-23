@@ -76,6 +76,7 @@ class LoaderClient
         $this->setTimeout();
 
         if($loaderData['type_id'] == 1){
+            echo 1;
             try {
                 $el = $this->client->findElement(WebDriverBy::xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]"));
                 $this->client->wait()->until(WebDriverExpectedCondition::elementToBeClickable(WebDriverBy::xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")));
