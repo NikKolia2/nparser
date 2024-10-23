@@ -44,6 +44,7 @@ class ProductParserView extends AbstractParserView
                 $data[$column] = $value;
         }
 
+        $data["url"] = $this->process->url;
         $options = $this->viewDom->getAttributeCharacteristics();
         $images = $this->viewDom->getAttributeImages();
      
