@@ -51,7 +51,7 @@ class LoaderService
 
     public function loadNext(): ?LoaderResponse
     {
-        
+        echo 3;
         $iteration = $this->currentIteration + 1;
      
         if ($iteration <= count($this->stack) - 1) {
