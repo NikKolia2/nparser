@@ -1,4 +1,4 @@
 #! /usr/bin/bash
 sleep 10
-echo 'services/parser/loader.php services/parser/loader.php services/parser/loader.php services/parser/parser.php' | xargs -n 1 -P 2 php
+echo 'services/santehnika-online.ru/loader.php services/santehnika-online.ru/loader.php services/santehnika-online.ru/loader.php services/santehnika-online.ru/parser.php' | xargs -n 1 -P 2 php
 
