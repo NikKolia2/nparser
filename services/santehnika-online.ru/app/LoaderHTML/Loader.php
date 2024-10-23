@@ -20,7 +20,7 @@ class Loader
 
     public function execute(){
         $processModel = new ProcessModel();
-        $processName = uniqid("", true)."txt";
+        $processName = uniqid("", true).".txt";
         file_put_contents($this->config->pathToProcessesDir.$processName, 1);
         while(file_exists($this->config->pathToProcessesDir.$processName)){
             $data = $processModel->getCollectionUrlsNewProcess($this->config->limitUrlsInGroup);
