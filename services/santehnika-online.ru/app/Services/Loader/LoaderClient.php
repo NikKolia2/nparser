@@ -71,6 +71,7 @@ class LoaderClient
     }
 
     function getHTML(array $loaderData):string{
+        echo 2;
         $this->get($loaderData['url']);
         $this->initCookies();
         $this->setTimeout();
