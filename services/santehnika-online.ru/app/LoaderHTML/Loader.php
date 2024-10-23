@@ -21,8 +21,8 @@ class Loader
     public function execute(){
         $processModel = new ProcessModel();
         $processName = uniqid("", true)."txt";
-        file_put_contents("temp/processes/".$processName, 1);
-        while(file_exists("temp/processes/".$processName)){
+        file_put_contents("/temp/processes/".$processName, 1);
+        while(file_exists("/temp/processes/".$processName)){
             $data = $processModel->getCollectionUrlsNewProcess($this->config->limitUrlsInGroup);
            
             if(!empty($data)){
