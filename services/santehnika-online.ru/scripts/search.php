@@ -5,7 +5,7 @@ use App\VewsDom\ProductView;
 
 require(dirname(__DIR__, 1)."/config/bootstrap.php");
 
-$url = 'https://santehnika-online.ru/product/divan_mebel_ars_grand_120kh200_velyur_goluboy_luna_089/729220/';
+$url = 'https://santehnika-online.ru/product/divan_mebel_ars_vashington_rogozhka_sinyaya/679703/';
 $filename = hash("sha256", $url);
 
 echo $filename;die;

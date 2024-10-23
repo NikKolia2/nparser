@@ -5,10 +5,10 @@ services:
     build: ./docker/php/
     container_name: nparser_php
     working_dir: /parser
-    #command: 
-    #  - /bin/bash 
-    #  - -c 
-    #  - services/parser/start
+    command: 
+     - /bin/bash 
+     - -c 
+     - services/parser/start
     volumes:
       - .:/parser
   mariadb:
