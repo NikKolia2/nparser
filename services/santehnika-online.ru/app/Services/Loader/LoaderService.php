@@ -53,7 +53,6 @@ class LoaderService
 
     public function loadNext(): ?LoaderResponse
     {
-        echo 3;
         $iteration = $this->currentIteration + 1;
      
         if ($iteration <= count($this->stack) - 1) {
@@ -150,7 +149,6 @@ class LoaderService
         $result = [];
        
         while($response = $this->loadNext()){
-            echo 4;
             if($path = $this->save($response)){
                 $result[$response->url] = $path;
             }

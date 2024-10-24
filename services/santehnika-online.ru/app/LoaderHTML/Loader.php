@@ -28,6 +28,7 @@ class Loader
            
             if(!empty($data)){
                 try {
+                    PLogger::log(Logger::INFO, "Ссылки получены");
                     $urls = array_column($data, "url");
                     $processModel->setStatusDownloading($urls);
 
@@ -36,7 +37,6 @@ class Loader
                     $processModel->setStatusWaitParsingAndFlagDownloaded($urls);
                 }catch(\Throwable $e){
                     PLogger::log(Logger::ERROR, $e->getMessage());
-                    throw $e;
                 }
             }
         }
