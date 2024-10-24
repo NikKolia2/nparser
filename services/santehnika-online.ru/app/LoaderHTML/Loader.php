@@ -31,7 +31,6 @@ class Loader
                     PLogger::log(Logger::INFO, "Ссылки получены");
                     $urls = array_column($data, "url");
                     $processModel->setStatusDownloading($urls);
-
                     $loaderService = $this->getLoaderService($data);
                     $urls = array_keys($loaderService->loadAll());
                     $processModel->setStatusWaitParsingAndFlagDownloaded($urls);

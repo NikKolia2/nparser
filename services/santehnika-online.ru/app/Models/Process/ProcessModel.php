@@ -3,6 +3,8 @@
 namespace App\Models\Process;
 
 use App\Models\Model;
+use App\Services\PLogger;
+use Monolog\Logger;
 use Override;
 use PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Offset;
 
@@ -75,6 +77,8 @@ class ProcessModel extends Model
     }
 
     public function setStatusWaitParsingAndFlagDownloaded(array $urls):bool {
+        PLogger::log(Logger::INFO, "Заканчиваем парсинг группы");
+        PLogger::log(Logger::INFO, json_encode($urls));
         $query = $this->query()->update($this->table);
         $query->set(["status_id" => 5, "is_downloaded" => 1]);
         $query->where("url", $urls);

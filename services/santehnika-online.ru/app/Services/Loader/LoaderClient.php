@@ -10,7 +10,6 @@ use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\Exception\TimeoutException;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Exception\NoSuchElementException;
-use Throwable;
 
 class LoaderClient
 {
@@ -74,13 +73,9 @@ class LoaderClient
     }
 
     function getHTML(array $loaderData):string{
-        try {
-            $this->get($loaderData['url']);
-            $this->initCookies();
-            $this->setTimeout();
-        }catch(\Throwable $e){
-            PLogger::log(Logger::ERROR, "Ошибка загрузки. Страница {$loaderData['url']}");
-        }
+        $this->get($loaderData['url']);
+        $this->initCookies();
+        $this->setTimeout();
 
         if($loaderData['type_id'] == 1){
             try {
@@ -94,14 +89,10 @@ class LoaderClient
 
                 $el->click();
                 $this->client->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")));
-            }catch(NoSuchElementException|TimeoutException|Throwable $e){
+            }catch(NoSuchElementException|TimeoutException $e){
                 if($e instanceof TimeoutException){
                     PLogger::log(Logger::ERROR, "Ошибка по таймауту. Страница {$loaderData['url']}");
                     $this->client->takeScreenshot($this->dirSaveCaptcha."screen.png");
-                }
-
-                if($e instanceof Throwable){
-                    PLogger::log(Logger::ERROR, $e->getMessage());
                 }
             }
         }else if($loaderData['type_id'] == 2){
