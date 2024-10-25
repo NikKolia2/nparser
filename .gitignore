@@ -2,3 +2,4 @@ vendor
 mysql-data
 *.xlsx
 storage
+cache
