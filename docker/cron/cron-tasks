@@ -1,2 +1,1 @@
-*/5 * * * * cd /parser/services/parser/cron && php checkSuccessParsing.php
-*/5 * * * * cd /parser/services/santehnika-online.ru/cron && php checkSuccessParsing.php
+
