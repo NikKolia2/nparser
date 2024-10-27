@@ -41,7 +41,8 @@ class ProcessNameModel extends Model
         $query->where("pn.success", 1);
         $query->paginationLimit($page, $limit);
 
-        return $query;
+        $q = $this->query()->select("p.pid")->from($query, "p");
+        return $q;
     }
 
     public function updateProcessStatusOnSuccess($page = 1, $limit = 10):int{
@@ -50,6 +51,7 @@ class ProcessNameModel extends Model
             "parsing_update_at" => date("Y-m-d H:i:s")
         ]);
         $query->where("pid IN (".$this->getQuerySuccessProcess($page, $limit)->getQueryString(true).")");
+        //echo $query->getQueryString(true);die;
         $stm = $query->execute();
 
         return $stm->rowCount();
