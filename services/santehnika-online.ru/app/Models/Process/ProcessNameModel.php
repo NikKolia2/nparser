@@ -23,6 +23,7 @@ class ProcessNameModel extends Model
         $qpc->leftJoin(ProcessNameModel::getTableName(), "pn1", "pn1.pid=pg1.pid");
         $qpc->where("pc.status_id", 4);
         $qpc->andWhere("pn1.parsing_success", 1, "!=");
+        $qpc->andWhere("pn1.pid = pg2.pid");
         $qpc->groupBy("pg1.pid");
         $qpc->paginationLimit($page, $limit);
 
