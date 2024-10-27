@@ -25,7 +25,7 @@ class ProcessNameModel extends Model
         $qpc->andWhere("pn1.parsing_success", 1, "!=");
         $qpc->andWhere("pn1.pid = pg2.pid");
         $qpc->groupBy("pg1.pid");
-        $qpc->paginationLimit($page, $limit);
+       
 
         $query = $this->query()->select("pn.pid")->from(
             $this->query()->select([
@@ -35,11 +35,11 @@ class ProcessNameModel extends Model
             ->leftJoin(ProcessGroupModel::getTableName(), "pg2", "pc1.url=pg2.url")
             ->leftJoin(ProcessNameModel::getTableName(), "pn2", "pn2.pid=pg2.pid")
             ->where("pn2.parsing_success", 1, "!=")
-            ->groupBy("pg2.pid")
-            ->paginationLimit($page, $limit),
+            ->groupBy("pg2.pid"),
             "pn"
         );
         $query->where("pn.success", 1);
+        $query->paginationLimit($page, $limit);
 
         return $query;
     }
