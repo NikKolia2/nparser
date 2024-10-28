@@ -8,6 +8,7 @@ $limit = 5000;
 $process = new ProcessModel();
 $total =  (int)$process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"];
 $pages =  $total/$limit - $total%$limit;
+echo $total%$limit;
 if($total%$limit){
     $pages =+ 1;
 }
