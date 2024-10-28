@@ -43,7 +43,7 @@ foreach ($files as $file) {
 }
 
 # close zip
-if($zip->close() == false){
-    echo  $zip->getStatusString();
-}
+$zip->close();
+echo  $zip->getStatusString();
+
 
