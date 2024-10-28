@@ -6,6 +6,7 @@ require(dirname(__DIR__, 1)."/config/bootstrap.php");
 
 $page = 1;
 $limit = 2000;
+$total =  $process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"];
 $process = new ProcessModel();
 $processes = $process->query()->select()->from($process::getTableName())->where("status_id", 4)->paginationLimit($page, $limit)->fetchArrays();
 $files = [];
@@ -19,7 +20,7 @@ foreach($processes as $p){
 $zip = new ZipArchive();
 
 # create a temp file & open it
-$create = $zip->open(__DIR__ . '/archive.zip', ZipArchive::CREATE);
+$create = $zip->open(__DIR__ . '/archive'.$page.'.zip', ZipArchive::CREATE);
 
 if ( $create === TRUE) {
     echo "\n Арихв создан\n";
@@ -42,5 +43,7 @@ foreach ($files as $file) {
 }
 
 # close zip
-$zip->close();
+if($zip->close() == false){
+    echo  $zip->getStatusString();
+}
 
