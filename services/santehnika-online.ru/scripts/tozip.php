@@ -5,7 +5,7 @@ use App\Models\Process\ProcessModel;
 require(dirname(__DIR__, 1)."/config/bootstrap.php");
 
 $page = 1;
-$limit = 4000;
+$limit = 100;
 $process = new ProcessModel();
 $processes = $process->query()->select()->from($process::getTableName())->where("status_id", 4)->paginationLimit($page, $limit)->fetchArrays();
 $files = [];
