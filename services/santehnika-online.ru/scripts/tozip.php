@@ -19,7 +19,15 @@ foreach($processes as $p){
 $zip = new ZipArchive();
 
 # create a temp file & open it
-$zip->open(__DIR__ . '/archive.zip', ZipArchive::CREATE);
+$create = $zip->open(__DIR__ . '/archive.zip', ZipArchive::CREATE);
+
+if ( $create === TRUE) {
+    echo "\n Арихв " . $zipName . " создан\n";
+} else {
+    echo 'Архив не создан, код ошибки: ', $create;
+    fwrite(STDERR, "Error while creating archive file");
+    exit(1);
+}
 
 # loop through each file
 foreach ($files as $file) {
