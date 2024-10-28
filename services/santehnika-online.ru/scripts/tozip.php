@@ -5,7 +5,7 @@ use App\Models\Process\ProcessModel;
 require(dirname(__DIR__, 1)."/config/bootstrap.php");
 
 $page = 1;
-$limit = 2000;
+$limit = 5000;
 $process = new ProcessModel();
 $total =  $process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"];
 $processes = $process->query()->select()->from($process::getTableName())->where("status_id", 4)->paginationLimit($page, $limit)->fetchArrays();
@@ -20,7 +20,7 @@ foreach($processes as $p){
 $zip = new ZipArchive();
 
 # create a temp file & open it
-$create = $zip->open(__DIR__ . '/archive'.$page.'.zip', ZipArchive::CREATE);
+$create = $zip->open(__DIR__ . '/archive'.date("Y-m-d_H:i:s").'.zip', ZipArchive::CREATE);
 
 if ( $create === TRUE) {
     echo "\n Арихв создан\n";
