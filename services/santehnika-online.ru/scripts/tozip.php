@@ -7,10 +7,10 @@ require(dirname(__DIR__, 1)."/config/bootstrap.php");
 $limit = 5000;
 $process = new ProcessModel();
 $total =  (int)$process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"];
-$pages =  ($total - $total%$limit)/$limit;
+$pages = ($total - $total%$limit)/$limit;
 
 if($total%$limit){
-    $pages =+ 1;
+    $pages += 1;
 }
 
 echo $pages;
