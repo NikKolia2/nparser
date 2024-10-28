@@ -22,7 +22,7 @@ $zip = new ZipArchive();
 $create = $zip->open(__DIR__ . '/archive.zip', ZipArchive::CREATE);
 
 if ( $create === TRUE) {
-    echo "\n Арихв " . $zipName . " создан\n";
+    echo "\n Арихв создан\n";
 } else {
     echo 'Архив не создан, код ошибки: ', $create;
     fwrite(STDERR, "Error while creating archive file");
@@ -34,6 +34,7 @@ foreach ($files as $file) {
     # download file
     $download_file = file_get_contents($file);
 
+    echo $download_file;
     #add it to the zip
     $zip->addFromString(basename($file), $download_file);
 }
