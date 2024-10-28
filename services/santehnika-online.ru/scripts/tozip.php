@@ -32,11 +32,13 @@ if ( $create === TRUE) {
 # loop through each file
 foreach ($files as $file) {
     # download file
-    $download_file = file_get_contents($file);
+    if(file_exists($file)){
+        $download_file = file_get_contents($file);
 
    
-    #add it to the zip
-    $zip->addFromString(basename($file), $download_file);
+        #add it to the zip
+        $zip->addFromString(basename($file), $download_file);
+    }
 }
 
 # close zip
