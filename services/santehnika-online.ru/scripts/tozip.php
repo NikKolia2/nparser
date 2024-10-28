@@ -34,7 +34,7 @@ foreach ($files as $file) {
     # download file
     $download_file = file_get_contents($file);
 
-    echo $download_file;
+   
     #add it to the zip
     $zip->addFromString(basename($file), $download_file);
 }
