@@ -38,7 +38,7 @@ foreach ($files as $file) {
 
    
         #add it to the zip
-        $zip->addFromString(basename($file), $download_file);
+        $zip->addFile($download_file, basename($file));
     }
 }
 
