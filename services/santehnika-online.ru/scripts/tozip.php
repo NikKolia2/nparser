@@ -34,11 +34,8 @@ if ( $create === TRUE) {
 foreach ($files as $file) {
     # download file
     if(file_exists($file)){
-        $download_file = file_get_contents($file);
-
-   
         #add it to the zip
-        $zip->addFile($download_file, basename($file));
+        $zip->addFile($file, basename($file));
     }
 }
 
