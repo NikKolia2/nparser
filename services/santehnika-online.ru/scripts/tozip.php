@@ -6,8 +6,13 @@ require(dirname(__DIR__, 1)."/config/bootstrap.php");
 
 $limit = 5000;
 $process = new ProcessModel();
-$total =  (int)$process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"]/$limit;
-echo $total;
+$total =  (int)$process->query()->select("COUNT(*) as total")->from($process::getTableName())->where("status_id", 4)->fetchFirstArray()["total"];
+$pages =  $total/$limit - $total%$limit;
+if($total%$limit){
+    $pages =+ 1;
+}
+
+echo $pages;
 // $processes = $process->query()->select()->from($process::getTableName())->where("status_id", 4)->paginationLimit($page, $limit)->fetchArrays();
 // $files = [];
 // foreach($processes as $p){
