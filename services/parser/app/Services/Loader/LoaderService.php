@@ -2,7 +2,9 @@
 
 namespace App\Services\Loader;
 
+use App\Services\PLogger;
 use Exception;
+use Monolog\Logger;
 
 class LoaderService
 {
@@ -15,7 +17,7 @@ class LoaderService
     protected string $pathDirStorageSiteHTML = "";
     protected bool $parseAll = false;
 
-    public function __construct(protected LoaderClient $LoaderClient, string|array $data, protected array $config = [])
+    public function __construct(protected LoaderClient $loaderClient, string|array $data, protected array $config = [])
     {
         if (is_string($data)) {
             $data = file($data, FILE_IGNORE_NEW_LINES);
@@ -51,12 +53,12 @@ class LoaderService
 
     public function loadNext(): ?LoaderResponse
     {
-        
         $iteration = $this->currentIteration + 1;
      
         if ($iteration <= count($this->stack) - 1) {
             $this->currentIteration = $iteration;
             $this->loaderResponse = $this->load($this->currentIteration, $this->parseAll, $this->stack);
+            PLogger::log(Logger::INFO, "Загружена страница ".$this->loaderResponse->url);
             return $this->loaderResponse;
         }
  
@@ -69,23 +71,19 @@ class LoaderService
             $data = $this->data;
         }
 
-        $url = $data[$iteration];
-        if(!$parseAll && $this->fileExists($url)){
-            return $this->getFileByUrl($url);
-        }else {
-           
-            $client = $this->LoaderClient->getClient();
-            $client->get($url);
-            $this->LoaderClient->initCookies();
-         
-            if ($this->LoaderClient->requestTimeount !== null) {
-                $client->manage()->timeouts()->implicitlyWait($this->LoaderClient->requestTimeount);
-            }
+        $loaderData = $data[$iteration];
 
-            $html = $client->executeScript("return document.getElementsByTagName('html')[0].innerHTML");
-
-            return new LoaderResponse($url, $html);
+        if(!$parseAll && $this->fileExists($loaderData['url'])){
+            return $this->getFileByUrl($loaderData['url']);
+        }else {            
+            return $this->loadFromInternt($loaderData);
         }
+    }
+
+    public function loadFromInternt(array $loaderData):LoaderResponse{
+        $html = $this->loaderClient->getHTML($loaderData);
+
+        return new LoaderResponse($loaderData['url'], $html);
     }
 
     public function getFileByUrl(string $url): LoaderResponse
@@ -129,7 +127,8 @@ class LoaderService
             if (!file_exists($storagePath)) {
                 mkdir($storagePath, 0755, true);
             }
-    
+            
+          
             if (file_put_contents($pathStorageHTML, $response->html) !== false) {
                 if(!$this->beforeSave($response, $pathStorageHTML)){
                     unlink($pathStorageHTML);
@@ -148,7 +147,7 @@ class LoaderService
 
     public function loadAll(): array{
         $result = [];
-      
+       
         while($response = $this->loadNext()){
             if($path = $this->save($response)){
                 $result[$response->url] = $path;

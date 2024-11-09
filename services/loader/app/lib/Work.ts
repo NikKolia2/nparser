@@ -1,0 +1,84 @@
+import DriverConfig from "./DriverConfig";
+import ProcessWorker from "./ProcessWorker";
+import processRepository from "../repositories/process.repository";
+import Loader from "./Loader";
+import * as log4js from "log4js";
+import loggerConfig from "../config/logger.config";
+
+export default class Work {
+    driverConfig:DriverConfig
+    timeOutsBeforOpenUrl: Array<number>
+    timeOutsAfterSaveStep: Array<number>
+    pathToSaveHTML:string
+    countProcesses:number
+    countUrlsInOneProcess:number
+    secondsFromStartProcess:number = 0
+    processes:Array<ProcessWorker> = []
+    logger:log4js.Logger
+
+    constructor(
+        driverConfig:DriverConfig,
+        timeOutsBeforOpenUrl: Array<number>,
+        timeOutsAfterSaveStep: Array<number>,
+        pathToSaveHTML:string,
+        countProcesses:number = 1,
+        countUrlsInOneProcess:number = 5,
+    ){
+        this.driverConfig = driverConfig
+        this.timeOutsAfterSaveStep = timeOutsAfterSaveStep
+        this.timeOutsBeforOpenUrl = timeOutsBeforOpenUrl
+        this.pathToSaveHTML = pathToSaveHTML
+        this.countProcesses = countProcesses
+        this.countUrlsInOneProcess = countUrlsInOneProcess
+        this.logger = log4js.getLogger("Work")
+        this.logger.level = loggerConfig.level
+        for(let i = 0; i < this.countProcesses; i++){
+            this.processes.push(new ProcessWorker(true));
+        }
+    }
+
+    async run(){
+        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 10){  
+            let process = this.getFreeProcess()
+            if(process != null){
+                this.logger.info("Старт процесса")
+                process.isFree = false;
+                this.secondsFromStartProcess = this.getCurrentSeconds();
+                this.logger.info("Получение ссылок из базы на загрузку")
+                let workerData = await processRepository.getNewProcesses(this.countUrlsInOneProcess);
+                
+                if(workerData.length){
+                    this.secondsFromStartProcess = this.getCurrentSeconds();
+                    
+                    let loader = new Loader(this.driverConfig, this.timeOutsBeforOpenUrl, this.timeOutsAfterSaveStep, this.pathToSaveHTML);
+                    await loader.loop(workerData).then(success => {   
+                        process.isFree = true;  
+                    })
+                }
+                this.logger.info("Остоновка процесса")
+            }
+        }
+    }
+
+
+    getFreeProcess(){
+        let process = this.processes.find((process) => process.isFree == true);
+        if(process != undefined){
+            return process;
+        }
+
+        return null;
+    }
+
+    isActiveProcess(){
+        let process = this.processes.find((process) => process.isFree == false);
+        if(process != undefined){
+            return true;
+        }
+
+        return false;
+    }
+    getCurrentSeconds(){
+        return Math.round(new Date().getTime() / 1000)
+    }
+}

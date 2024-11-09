@@ -6,10 +6,19 @@ export $(cat ./config/colors|xargs)
 
 
 
-  echo -e "Начинаем запуск контейнеров"
-  echo -e "Переменные среды взяты из ${Purple}config/.env${Color_Off}"
-  docker compose -f docker-compose.yml --env-file ./config/.env up -d $1
-  echo -e "${Green}Контейнеры были запущены${Color_Off}"
+if [ "$MODE" = "production" ];
+then
+echo -e "Начинаем запуск контейнеров"
+echo -e "Переменные среды взяты из ${Purple}config/.env${Color_Off}"
+docker compose -f docker-compose.yml --env-file ./config/.env up -d $1
+echo -e "${Green}Контейнеры были запущены${Color_Off}"
+fi
 
-
+if [ "$MODE" = "dev" ];
+then
+echo -e "Начинаем запуск контейнеров"
+echo -e "Переменные среды взяты из ${Purple}config/.env${Color_Off}"
+docker compose -f docker-compose-dev.yml --env-file ./config/.env up -d $1
+echo -e "${Green}Контейнеры были запущены${Color_Off}"
+fi
 # docker compose -f docker-compose-dev.yml --env-file ./config/.env up -d

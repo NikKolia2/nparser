@@ -9,6 +9,7 @@ class LoaderConfig
         public ?int $requestTimeout = null,
         public array $requestHeaders = [],
         public ?string $pathDirStorageHTML = null,
+        public ?string $pathToProcessesDir = null,
         public int $limitUrlsInGroup = 300
     ){
 

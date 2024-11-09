@@ -1,0 +1,36 @@
+{
+  "name": "loader",
+  "version": "1.0.0",
+  "main": "loader.js",
+  "scripts": {
+    "tsc": "tsc",
+    "start": "nodemon --exec ts-node app/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/dom-parser": "^0.1.4",
+    "@types/selenium-webdriver": "^4.1.27",
+    "chromedriver": "^130.0.1",
+    "dom-parser": "^1.1.5",
+    "js-sha256": "^0.11.0",
+    "jsdom": "^25.0.1",
+    "log4js": "^6.9.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.11.3",
+    "selenium-stealth": "^1.0.1",
+    "selenium-webdriver": "^4.26.0",
+    "sleep": "^6.3.0",
+    "typescript": "^5.6.3",
+    "typescript_worker_threads": "^1.2.14",
+    "zip-lib": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.8.5",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
+  }
+}

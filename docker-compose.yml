@@ -8,7 +8,7 @@ services:
     command: 
      - /bin/bash 
      - -c 
-     - services/santehnika-online.ru/start
+     - services/parser/start
     volumes:
       - .:/parser
   mariadb:
@@ -43,6 +43,25 @@ services:
     tty: true
     volumes:
       - .:/parser
+  nodejs:
+    build: ./docker/node/
+    container_name: nparser_vseinstruments_nodejs
+    working_dir: /parser
+    stdin_open: true
+    tty: true
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd services/loader
+        npm install
+        pm2 start dist/index.js --no-daemon 
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/parser
+      - ./services/loader/logs:/var/log/cluster
+
 networks:
   default:
     name: nparser_network

@@ -26,7 +26,7 @@ class Parser
                 $pathToFile = $this->config->getPathFileByUrl($process->url);
                 $namespace = $process->namespace;
              
-                $viewParser = new $namespace($pathToFile);
+                $viewParser = new $namespace($pathToFile, $process);
                 if($viewParser->execute()){
                     $processModel->setStatusSuccess($process->url);
                 }

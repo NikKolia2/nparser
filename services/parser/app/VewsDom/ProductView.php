@@ -26,45 +26,50 @@ class ProductView extends View
         return null;
     }
 
-    public function getAttributeArticle(){
+    public function getAttributeCode(){
         $xpath = new DOMXPath($this->dom);
-        $articleNode = $xpath->query("//*[@data-qa='product-code']//span");
+        $articleNode = $xpath->query("//*[contains(@class, 'card-product')]//*[contains(@class, 'LIQSG6jkG8K8J84B7Gi5')]");
         if($articleNode->length)
-            return $articleNode->item(0)->textContent;
+            return trim(strip_tags(str_replace('Код:', '', $articleNode->item(0)->textContent)));
         
         return null;
     }
 
-    public function getAttributeBreadcrumbs(){
+    public function getAttributePrice(){
         $xpath = new DOMXPath($this->dom);
-        $nodeList = $xpath->query("//*[contains(@class, 'breadcrumbs')]//*[contains(@class, 'breadcrumbs-item')]");
-    
-        if($nodeList->length){
-            $breadcrumbs = [];
-            foreach($nodeList as $node){
-                $aNode = $xpath->query($node->getNodePath().'//a');
-                if($aNode->length){
-                    $spanNode = $xpath->query($aNode->item(0)->getNodePath().'//span');
-                    if($spanNode->length){
-                        $category = $spanNode->item(0)->textContent;
-                        $breadcrumbs[] = trim(strip_tags($category));
-                    }
-                }
-            }
+        $node = $xpath->query("//*[contains(@class, 'card-product')]//*[contains(@class, 'main')]//*[contains(@class, 'b-price__price--main')]//*[contains(@class, 'b-price__price-core')]");
+        if($node->length)
+            return trim(str_replace("₽", "", trim(strip_tags($node->item(0)->textContent))));
+        
+        return null;
+    }
 
-            return json_encode($breadcrumbs, JSON_UNESCAPED_UNICODE);
+    public function getAttributeOldPrice(){
+        $xpath = new DOMXPath($this->dom);
+        $node = $xpath->query("//*[contains(@class, 'card-product')]//*[contains(@class, 'main')]//*[contains(@class, 'b-price__price--old')]//*[contains(@class, 'b-price__price-core')]");
+        if($node->length)
+            return trim(str_replace("₽", "", trim(strip_tags($node->item(0)->textContent))));
+        
+        return null;
+    }
+
+    public function getAttributeArticle(){
+        $xpath = new DOMXPath($this->dom);
+        $articleNode = $xpath->query("//*[@id='nparser-about-product']//*[contains(@class, 'LksPR0PO0h4lVCCJKDEN')]//*[contains(@class, 'SC5w5GYRFIsb9eJmdWIe') and text()='Артикул']/parent::*/parent::*/*[contains(@class, 'xHtZUMuYkoN39SOq1kP0')]");
+        if($articleNode->length){
+            return $articleNode->item(0)->textContent;
         }
+        return null;
+    }
+
+    public function getAttributeBreadcrumbs(){
+       
             
         return null;
     }
 
     public function getAttributeMetaDescription(){
-        $xpath = new DOMXPath($this->dom);
-        $node = $xpath->query("//meta[@name='description']");
-        if($node->length){
-            return trim(strip_tags($node->item(0)->getAttribute('content')));
-        }
-
+       
         return null;
     }
 
@@ -79,18 +84,13 @@ class ProductView extends View
     }
 
     public function getAttributeDescription(){
-        $xpath = new DOMXPath($this->dom);
-        $node = $xpath->query("//*[@id='description']//*[@itemprop='description']");
-        if($node->length){
-            return trim(strip_tags($node->item(0)->textContent));
-        }
 
         return null;
     }
 
     public function getAttributeBrand(){
         $xpath = new DOMXPath($this->dom);
-        $node = $xpath->query("//*[@itemprop='brand']//*[contains(@class, 'XzwDFu')]//*[@data-v-2a0bbf6b]");
+        $node = $xpath->query("//*[@id='nparser-about-product']//*[contains(@class, 'LksPR0PO0h4lVCCJKDEN')]//*[contains(@class, 'SC5w5GYRFIsb9eJmdWIe') and text()='Бренд']/parent::*/parent::*/*[contains(@class, 'xHtZUMuYkoN39SOq1kP0')]/a");
         if($node->length){
             return trim(strip_tags($node->item(0)->textContent));
         }
@@ -99,72 +99,42 @@ class ProductView extends View
     }
 
     public function getAttributeCountry(){
-        $xpath = new DOMXPath($this->dom);
-        $node = $xpath->query("//*[@itemprop='brand']//*[contains(@class, 'px2ZEf')]//*[@data-v-2a0bbf6b]");
-        if($node->length){
-            return trim(strip_tags($node->item(0)->textContent));
-        }
 
         return null;
     }
 
     public function getAttributeComplectation(){
-        $xpath = new DOMXPath($this->dom);
-        $nodeList = $xpath->query("//*[contains(@class, 'fXY1dM')]//ul/li");
-        if($nodeList->length){
-            $complectations = [];
-            foreach($nodeList as $node){
-                $complectations[] = trim(strip_tags($node->textContent));
-            }
-            return json_encode($complectations, JSON_UNESCAPED_UNICODE);
-        }
 
         return null;
     }
 
     public function getAttributeInfoPack(){
-        $xpath = new DOMXPath($this->dom);
-        $nodeList = $xpath->query("//*[contains(@class, 'M-OTgI')]//p[@data-v-2a0bbf6b]");
-        if($nodeList->length){
-            $arr = [];
-            foreach($nodeList as $node){
-                $arr[] = trim(strip_tags($node->textContent));
-            }
-            return json_encode($arr, JSON_UNESCAPED_UNICODE);;
-        }
 
         return null;
     }
 
     public function getAttributeCharacteristics(){
         $xpath = new DOMXPath($this->dom);
-        $optionsNodeList = $xpath->query("//*[@id='characteristics']//*[@data-qa='specification-item']");
+        $optionsNodeList = $xpath->query("//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]//*[contains(@class, 'sTuRREjxkcM2oZZvFsNv')]");
         if($optionsNodeList->length){
-            $arr = [];
             foreach($optionsNodeList as $node){
-                $optionName = null;
-                $optionNameNodeList = $xpath->query($node->getNodePath()."//*[@data-qa='specification-item-name']");
-                if($optionNameNodeList->length){
-                    $optionName = trim(strip_tags($optionNameNodeList->item(0)->textContent));
-                  
-                }
-                
-                $optionValue = null;
-                $optionValueNodeList = $xpath->query($node->getNodePath()."//*[@data-qa='specification-item-value']");
-                if($optionValueNodeList->length){
-                    $optionValue = trim(strip_tags($optionValueNodeList->item(0)->textContent));
-                }
+                $nodeHeader = $xpath->query($node->getNodePath()."//*[contains(@class, 'zZM8feNJ9uE4brpqPGxx')]");
+                $nodeBody = $xpath->query($node->getNodePath()."//*[contains(@class, 'p77yJr3gHcMqPC0fAxK2')]/span");
+                if($nodeHeader->length && $nodeBody->length){
+                    $optionName = trim(strip_tags($nodeHeader->item(0)->textContent));
+                    $optionValue = trim(strip_tags($nodeBody->item(0)->textContent));
 
-                $optionKey = HelperService::translite($optionName);
-                $optionKey = str_replace([':',"(",")","\\","/"], '_', $optionKey);
-                $optionKey = rtrim(str_replace([" ", "'"], '', $optionKey), "_");
-                $optionKey = strtolower($optionKey);
+                    $optionKey = HelperService::translite($optionName);
+                    $optionKey = str_replace([':',"(",")","\\","/"], '_', $optionKey);
+                    $optionKey = rtrim(str_replace([" ", "'"], '', $optionKey), "_");
+                    $optionKey = strtolower($optionKey);
 
-                $arr[] = [
-                    "option_name" => $optionName,
-                    "option_value" => $optionValue,
-                    "option_key" => $optionKey
-                ];
+                    $arr[] = [
+                        "option_name" => $optionName,
+                        "option_value" => $optionValue,
+                        "option_key" => $optionKey
+                    ];
+                }
             }
 
             return $arr;
@@ -175,15 +145,14 @@ class ProductView extends View
 
     public function getAttributeImages(){
         $xpath = new DOMXPath($this->dom);
-        $nodeList = $xpath->query("//*[contains(@class, 'goeetN')]//*[@data-qa='carousel-image']//*[contains(@class, 'content')]//*[contains(@class, 'item')]");
+        $nodeList = $xpath->query("//*[contains(@class, 'card-product')]//*[contains(@class, 'MAsfHIY3eg66wlBwCZKZ')]//*[contains(@class, 'swiper-slide')]//img");
         if($nodeList->length){
             $gallery = [];
-            foreach ($nodeList as $node) {
-                $aNode = $xpath->query($node->getNodePath()."/a");
-               
-                if(!$aNode->length) continue;
-               
-                $url = $aNode->item(0)->getAttribute('href');
+            foreach ($nodeList as $node) {               
+                $url = $node->getAttribute('src');
+                if(empty($url)){
+                    $url = $node->getAttribute('data-src');
+                }
                 $gallery[] = $url;
             }
 
@@ -194,16 +163,6 @@ class ProductView extends View
     }
 
     public function getAttributeWarehouse(){
-        $xpath = new DOMXPath($this->dom);
-        $node = $xpath->query("//*[@data-qa='product-delivery']//p[@data-qa='availability-info']//span[contains(text(), 'Есть на складе')]");
-        
-        if($node->length){
-            $str = $node->item(0)->textContent;
-           
-            if(preg_match("/Есть\s+на\s+складе\s+(\d+)\s+шт\./", str_replace("\n", "", trim($str)), $out)){
-                return trim(strip_tags($out[1]));
-            }
-        }
 
         return null;
     }

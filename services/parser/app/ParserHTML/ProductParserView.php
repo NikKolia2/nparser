@@ -14,9 +14,10 @@ class ProductParserView extends AbstractParserView
     protected ProductOptionModel $productOptionModel;
     protected ProductImagesModel $productImagesModel;
     public function __construct(
-        string $pathToFile
+        string $pathToFile,
+        $process
     ){
-      
+        parent::__construct($pathToFile, $process);
         $this->viewDom = new ProductView($pathToFile, true);
         $this->productModel = new ProductModel();
         $this->productOptionModel = new ProductOptionModel();
@@ -24,14 +25,26 @@ class ProductParserView extends AbstractParserView
     }
 
     public function execute():bool{
+        //Данные процесса
+        if(!empty($this->process->data)){
+            $processData = json_decode($this->process->data, true);
+        }else{
+            $processData = [];
+        }
+
         $columns = $this->productModel->getTableColumns();
         $data = [];
         
+        if(isset($processData["category_id"])){
+            $data["category_id"] = $processData["category_id"];
+        }
+       
         foreach($columns as $column){
             if(!empty($value = $this->viewDom->$column))
                 $data[$column] = $value;
         }
 
+        $data["url"] = $this->process->url;
         $options = $this->viewDom->getAttributeCharacteristics();
         $images = $this->viewDom->getAttributeImages();
      
@@ -63,6 +76,7 @@ class ProductParserView extends AbstractParserView
                 return false;
             }
         }catch(\Throwable $e){
+            echo $e->getMessage().PHP_EOL;
             return false;
         }
       

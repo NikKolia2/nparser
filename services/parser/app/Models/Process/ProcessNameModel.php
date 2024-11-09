@@ -23,8 +23,9 @@ class ProcessNameModel extends Model
         $qpc->leftJoin(ProcessNameModel::getTableName(), "pn1", "pn1.pid=pg1.pid");
         $qpc->where("pc.status_id", 4);
         $qpc->andWhere("pn1.parsing_success", 1, "!=");
+        $qpc->andWhere("pn1.pid = pg2.pid");
         $qpc->groupBy("pg1.pid");
-        $qpc->paginationLimit($page, $limit);
+       
 
         $query = $this->query()->select("pn.pid")->from(
             $this->query()->select([
@@ -34,13 +35,14 @@ class ProcessNameModel extends Model
             ->leftJoin(ProcessGroupModel::getTableName(), "pg2", "pc1.url=pg2.url")
             ->leftJoin(ProcessNameModel::getTableName(), "pn2", "pn2.pid=pg2.pid")
             ->where("pn2.parsing_success", 1, "!=")
-            ->groupBy("pg2.pid")
-            ->paginationLimit($page, $limit),
+            ->groupBy("pg2.pid"),
             "pn"
         );
         $query->where("pn.success", 1);
+        $query->paginationLimit($page, $limit);
 
-        return $query;
+        $q = $this->query()->select("p.pid")->from($query, "p");
+        return $q;
     }
 
     public function updateProcessStatusOnSuccess($page = 1, $limit = 10):int{
@@ -49,6 +51,7 @@ class ProcessNameModel extends Model
             "parsing_update_at" => date("Y-m-d H:i:s")
         ]);
         $query->where("pid IN (".$this->getQuerySuccessProcess($page, $limit)->getQueryString(true).")");
+        //echo $query->getQueryString(true);die;
         $stm = $query->execute();
 
         return $stm->rowCount();

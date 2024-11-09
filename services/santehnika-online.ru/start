@@ -1,4 +1,0 @@
-#! /usr/bin/bash
-sleep 10
-echo 'services/santehnika-online.ru/loader.php services/santehnika-online.ru/loader.php services/santehnika-online.ru/parser.php' | xargs -n 1 -P 3 php
-

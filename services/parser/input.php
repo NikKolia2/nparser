@@ -10,4 +10,4 @@ if (!count($urls)) {
     die;
 }
 
-new ProcessService($urls, ProcessService::TYPE_PRODUCT, "Тест парсинга");
+new ProcessService($urls, ProcessService::TYPE_MAIN_CATEGORY, "Парсинг категорий сайта");

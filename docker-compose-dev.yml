@@ -1,0 +1,62 @@
+version: '3.7'
+
+services:
+  php:
+    build: ./docker/php/
+    container_name: nparser_php
+    working_dir: /parser
+    # command: 
+    #  - /bin/bash 
+    #  - -c 
+    #  - services/santehnika-online.ru/start
+    volumes:
+      - .:/parser
+  mariadb:
+    image: mariadb
+    container_name: nparser_mariadb
+    working_dir: /parser
+    ports:
+      - 3306:3306
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - .:/parser
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  selenium:
+    image: 'selenium/standalone-chrome:3.141'
+    container_name: nparser_selenium
+    ports:
+     - "4444:4444"
+     - "5900:5900"
+    volumes:
+     - /dev/shm:/dev/shm
+  cron:
+    build: ./docker/cron/
+    container_name: nparser_cron
+    working_dir: /parser
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/parser
+
+  nodejs:
+    build: ./docker/node/
+    container_name: nparser_nodejs
+    working_dir: /parser
+    stdin_open: true
+    tty: true
+  
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/parser
+
+
+networks:
+  default:
+    name: nparser_network
