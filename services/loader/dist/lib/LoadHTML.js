@@ -45,14 +45,14 @@ class LoadHTML {
         this.driver = driver;
         this.url = url;
         this.typeProcessId = typeProcessId;
-        this.render = render_config_1.default.get(this.typeProcessId);
+        this.render = new (render_config_1.default.get(this.typeProcessId))(driver);
         this.logger = log4js.getLogger("LoadHTML");
         this.logger.level = logger_config_1.default.level;
     }
     get() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.render.get(this.driver, this.url);
+                yield this.render.get(this.url);
             }
             catch (err) {
                 this.logger.error("Ошибка получения станицы " + this.url);
@@ -78,7 +78,7 @@ class LoadHTML {
                     this.logger.error("Ошибка получения содержимого станицы");
                     return false;
                 }
-                let renderHtml = this.render.render(html);
+                let renderHtml = yield this.render.render(html);
                 if (!renderHtml)
                     return false;
                 html = renderHtml;

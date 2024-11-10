@@ -5,10 +5,10 @@ services:
     build: ./docker/php/
     container_name: nparser_php
     working_dir: /parser
-    command: 
-     - /bin/bash 
-     - -c 
-     - services/parser/start
+    # command: 
+    #  - /bin/bash 
+    #  - -c 
+    #  - services/parser/start
     volumes:
       - .:/parser
   mariadb:
@@ -49,13 +49,13 @@ services:
     working_dir: /parser
     stdin_open: true
     tty: true
-    command:
-      - /bin/bash
-      - -c
-      - |
-        cd services/loader
-        npm install
-        pm2 start dist/index.js --no-daemon 
+    # command:
+    #   - /bin/bash
+    #   - -c
+    #   - |
+    #     cd services/loader
+    #     npm install
+    #     pm2 start dist/index.js --no-daemon 
     ports:
       - 3000:3000
     volumes:

@@ -13,27 +13,54 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Render_1 = __importDefault(require("../lib/Render"));
+const selenium_webdriver_1 = require("selenium-webdriver");
 class ProductRender extends Render_1.default {
-    static get(driver, url) {
+    get(url) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield driver.get("https://www.vseinstrumenti.ru/represent/change/?represent_id=-1&represent_type=common");
-                yield driver.get(url);
+                yield this.driver.get(url);
+                this.driver.sleep;
             }
             catch (err) {
                 throw err;
             }
         });
     }
-    static validate(html) {
-        // var doc = parseFromString(html);
-        // let h1 = doc.getElementsByTagName("h1");
-        // if(h1.length != 0){
-        //     let span = h1[0].getElementsByTagName("span")
-        //     if((span.length && span[0].textContent == "This page isn’t working" ))
-        //         return false;
-        // }
-        return true;
+    render(html) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let spinner = this.driver.findElement(selenium_webdriver_1.By.id('id_spinner'));
+                yield this.driver.wait(selenium_webdriver_1.until.elementIsNotVisible(spinner), 5000);
+            }
+            catch (err) {
+                // this.logger.info(err)
+            }
+            try {
+                let modal = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']")), 5000);
+                modal = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(modal), 2000);
+                yield modal.click();
+            }
+            catch (err) {
+                //this.logger.info(err)
+            }
+            try {
+                let tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
+                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
+                yield tabCharacters.click();
+                let characters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 20000);
+                characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
+                this.driver.executeScript(`
+                let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
+                    aboutProduct.id = 'nparser-about-product';
+                    document.body.appendChild(aboutProduct);
+            `);
+            }
+            catch (err) {
+                this.logger.info(err);
+                return html;
+            }
+            return html;
+        });
     }
 }
 exports.default = ProductRender;

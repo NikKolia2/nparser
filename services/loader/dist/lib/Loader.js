@@ -62,7 +62,7 @@ class Loader {
                         HelperService_1.default.getChromedriver(this.driverConfig).then(driver => {
                             resolve({ driver, urlData });
                         }).catch(err => {
-                            this.logger.error(err);
+                            this.logger.error("строка 44 - " + err);
                         });
                     }));
                 });

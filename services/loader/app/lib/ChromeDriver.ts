@@ -22,6 +22,7 @@ export default class ChromeDriver extends Builder{
     ):Promise<Builder>{
         let builder = new ChromeDriver();
         if(config?.proxy){
+           
             await builder.addExtProxy(config.proxy)
         }
 
@@ -34,6 +35,10 @@ export default class ChromeDriver extends Builder{
             builder.usingServer(config.serverUrl);
         }
 
+        if(config?.args.length){
+            builder.options.addArguments(...config.args);
+        }
+
         return builder;
     }
 
@@ -44,89 +49,87 @@ export default class ChromeDriver extends Builder{
     }
 
     addExtProxy(proxy:Proxy){
-        // let manifest_json = {
-        //     "version": "1.0.0",
-        //     "manifest_version": 2,
-        //     "name": "Chrome Proxy",
-        //     "permissions": [
-        //         "proxy",
-        //         "tabs",
-        //         "unlimitedStorage",
-        //         "storage",
-        //         "<all_urls>",
-        //         "webRequest",
-        //         "webRequestBlocking"
-        //     ],
-        //     "background": {
-        //         "scripts": ["background.js"]
-        //     },
-        //     "minimum_chrome_version":"22.0.0"
-        // };
+        let manifest_json = {
+            "version": "1.0.0",
+            "manifest_version": 2,
+            "name": "Chrome Proxy",
+            "permissions": [
+                "proxy",
+                "tabs",
+                "unlimitedStorage",
+                "storage",
+                "<all_urls>",
+                "webRequest",
+                "webRequestBlocking"
+            ],
+            "background": {
+                "scripts": ["background.js"]
+            },
+            "minimum_chrome_version":"22.0.0"
+        };
     
-        // let background_js = `
-        // var config = {
-        //         mode: "fixed_servers",
-        //         rules: {
-        //         singleProxy: {
-        //             scheme: "http",
-        //             host: "${proxy.host}",
-        //             port: parseInt(${proxy.port})
-        //         },
-        //         bypassList: ["localhost"]
-        //         }
-        //     };
+        let background_js = `
+        var config = {
+                mode: "fixed_servers",
+                rules: {
+                singleProxy: {
+                    scheme: "http",
+                    host: "${proxy.host}",
+                    port: parseInt(${proxy.port})
+                },
+                bypassList: ["localhost"]
+                }
+            };
     
-        // chrome.proxy.settings.set({value: config, scope: "regular"}, function() {});
+        chrome.proxy.settings.set({value: config, scope: "regular"}, function() {});
     
-        // function callbackFn(details) {
-        //     return {
-        //         authCredentials: {
-        //             username: "${proxy.username}",
-        //             password: "${proxy.password}"
-        //         }
-        //     };
-        // }
+        function callbackFn(details) {
+            return {
+                authCredentials: {
+                    username: "${proxy.username}",
+                    password: "${proxy.password}"
+                }
+            };
+        }
     
-        // chrome.webRequest.onAuthRequired.addListener(
-        //     callbackFn,
-        //     {urls: ["<all_urls>"]},
-        //     ['blocking']
-        // );`
+        chrome.webRequest.onAuthRequired.addListener(
+            callbackFn,
+            {urls: ["<all_urls>"]},
+            ['blocking']
+        );`
 
-        let dir = "/parser/loader/app/lib/proxy/"+proxy.username;
-        // try{
+        let dir = "app/lib/proxy/"+proxy.username+"";
+        try{
             
-        //     if (!fs.existsSync(dir)) {
-        //         fs.mkdirSync(dir);
-        //     }
+            if (!fs.existsSync(dir)) {
+                console.log(123)
+                fs.mkdirSync(dir);
+            }
             
-        //     fs.openSync(dir+'/manifest.json', 'w');
-        //     fs.writeFileSync(dir+'/manifest.json', JSON.stringify(manifest_json));
-        //     fs.openSync(dir+'/background.js', 'w');
-        //     fs.writeFileSync(dir+'/background.js', ''+background_js);
-        // } catch (err) {
-        //     console.error(err);
-        // }
+            fs.openSync(dir+'/manifest.json', 'w');
+            fs.writeFileSync(dir+'/manifest.json', JSON.stringify(manifest_json));
+            fs.openSync(dir+'/background.js', 'w');
+            fs.writeFileSync(dir+'/background.js', ''+background_js);
+        } catch (err) {
+            console.error(err);
+        }
         
         let pluginfile = dir+'/proxy_auth_plugin.zip'
-        // let zip = new zl.Zip();
-        // zip.addFile(dir+'/manifest.json');
-        // zip.addFile(dir+'/background.js');
+        let zip = new zl.Zip();
+        zip.addFile(dir+'/manifest.json');
+        zip.addFile(dir+'/background.js');
         
         return new Promise<ChromeDriver>((resolve, reject) => {
-            let options = new Options();
-            options.addExtensions(pluginfile);
-            this.setChromeOptions(options)
-            resolve(this)
-            // zip.archive(dir+'/proxy_auth_plugin.zip').then(() => {
-            //     let options = new Options();
-            //     options.addExtensions(pluginfile);
-            //     this.setChromeOptions(options)
-            //     resolve(this)
-            // }, (err) => {
-            //     console.log(err);
-            //     reject(this);
-            // });
+            
+            zip.archive(dir+'/proxy_auth_plugin.zip').then(() => {
+                let options = new Options();
+                options.addExtensions(pluginfile);
+                this.setChromeOptions(options)
+                resolve(this)
+            }, (err) => {
+                console.log(err);
+                reject(this);
+            });
         });
     }
 }

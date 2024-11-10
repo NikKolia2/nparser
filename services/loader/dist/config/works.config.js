@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = [
     {
         driverConfig: {
-            serverUrl: "http://nparser_vseinstruments_selenium:4444/wd/hub",
+            serverUrl: "http://nparser_selenium:4444/wd/hub",
             capabilities: {
                 'goog:chromeOptions': {
                     excludeSwitches: [
@@ -17,42 +17,11 @@ exports.default = [
                 port: "40875",
                 username: "12ff57a8e5",
                 password: "a8271ae51f"
-            }
-        },
-        timeOutsBeforOpenUrl: [
-            800,
-            900,
-            1100,
-            1150,
-            1200,
-            1050
-        ],
-        timeOutsAfterSaveStep: [
-            2050,
-            3200,
-            3500,
-            4000
-        ],
-        countProcesses: 4,
-        countUrlsInOneProcess: 5
-    },
-    {
-        driverConfig: {
-            serverUrl: "http://nparser_vseinstruments_selenium:4444/wd/hub",
-            capabilities: {
-                'goog:chromeOptions': {
-                    excludeSwitches: [
-                        'enable-automation',
-                        'useAutomationExtension',
-                    ],
-                },
             },
-            proxy: {
-                host: "109.195.6.226",
-                port: "40812",
-                username: "6e4b272a62",
-                password: "75eb222a76"
-            }
+            args: [
+                "--disable-blink-features=AutomationControlled",
+                "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36"
+            ]
         },
         timeOutsBeforOpenUrl: [
             800,

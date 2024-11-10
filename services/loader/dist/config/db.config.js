@@ -4,5 +4,5 @@ exports.default = {
     HOST: "mariadb",
     USER: "parser",
     PASSWORD: "lIcTOANCOUrA",
-    DB: "parser"
+    DB: "santehnika-online"
 };

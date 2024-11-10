@@ -5,6 +5,7 @@ export default class ProductRender extends Render {
     async get(url:string): Promise<void> {
         try{
             await this.driver.get(url)
+            this.driver.sleep
         }catch(err){
             throw err;
         } 
@@ -13,21 +14,21 @@ export default class ProductRender extends Render {
     async render(html: string): Promise<string | null> {
         try {
             let spinner = this.driver.findElement(By.id('id_spinner'))
-            await this.driver.wait(until.elementIsNotVisible(spinner), 20000)
+            await this.driver.wait(until.elementIsNotVisible(spinner), 5000)
         }catch(err){
-            this.logger.info(err)
+           // this.logger.info(err)
         }
         
         try {
             let modal = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']")),
-                20000
+                5000
             )
             
             modal = await this.driver.wait(until.elementIsVisible(modal), 2000);
             await modal.click()
         }catch(err){
-            this.logger.info(err)
+            //this.logger.info(err)
         }
 
         try {
@@ -59,7 +60,7 @@ export default class ProductRender extends Render {
             `)
         }catch(err){
             this.logger.info(err)
-            return null
+            return html
         }
 
         return html
