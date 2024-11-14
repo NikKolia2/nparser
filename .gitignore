@@ -4,3 +4,4 @@ mysql-data
 storage
 cache
 .env
+node_modules
