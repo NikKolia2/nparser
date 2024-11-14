@@ -41,7 +41,7 @@ export default class Loader {
                     HelperService.getChromedriver(this.driverConfig).then(driver =>{
                         resolve({driver, urlData})
                     }).catch(err => {
-                        this.logger.error(err);
+                        //this.logger.error(err);
                     })
                 }))
             });

@@ -52,7 +52,6 @@ class Render {
             }
             catch (err) {
                 this.logger.error("Ошибка получения станицы " + this.url);
-                throw err;
             }
         });
     }
@@ -62,7 +61,7 @@ class Render {
     render() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.driver.get(this.url);
+                yield this.get();
             }
             catch (err) {
                 throw err;

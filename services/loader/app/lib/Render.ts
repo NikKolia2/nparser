@@ -27,7 +27,6 @@ export default class Render implements RenderInterface {
             await this.driver.get(this.url)
         }catch(err){
             this.logger.error("Ошибка получения станицы "+this.url)
-            throw err
         }
     }
 
@@ -37,7 +36,7 @@ export default class Render implements RenderInterface {
 
     async render():Promise<void>{
         try{
-            await this.driver.get(this.url)
+            await this.get()
         }catch(err){
             throw err
         }
