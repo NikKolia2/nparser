@@ -20,6 +20,7 @@ services:
     command: 
       - /bin/bash 
       - -c 
+      - php composer.phar intall
       - services/parser/start
     ports:
       - 8001:8001
