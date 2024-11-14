@@ -8,7 +8,7 @@ services:
     stdin_open: true
     volumes:
       - ./:/parser
-      - /etc/letsencrypt/live/nikparser.ru/:/etc/letsencrypt/live/nikparser.ru/
+      - /etc/letsencrypt/live/api.santehnika-online.nikparser.ru/:/etc/letsencrypt/live/api.santehnika-online.nikparser.ru/
     
   parser:
     build: ./docker/php/
