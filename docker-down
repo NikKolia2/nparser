@@ -10,6 +10,17 @@ echo -e "${Green}
     └─┐│ │├─┘├┤ ├┬┘  ├─┤│ ┬├┤ │  ├─┤├┬┘
     └─┘└─┘┴  └─┘┴└─  ┴ ┴└─┘└─┘┴─┘┴ ┴┴└─
 ${Color_Off}";
+
+if [ "$MODE" = "production" ];
+then
+  echo -e "Начинаем остановку контейнеров"
+  docker compose -f docker-compose.yml --env-file ./config/.env down
+  echo -e "${Green}Контейнеры были остановлены, сеть удалена ${Color_Off}"
+fi
+
+if [ "$MODE" = "dev" ];
+then
   echo -e "Начинаем остановку контейнеров"
   docker compose -f docker-compose-dev.yml --env-file ./config/.env down
   echo -e "${Green}Контейнеры были остановлены, сеть удалена ${Color_Off}"
+fi
