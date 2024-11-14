@@ -23,30 +23,30 @@ for($i = 1; $i <= $pages; $i++){
         $files[] = $filepath;
     }
 
-    $zip = new ZipArchive();
+    // $zip = new ZipArchive();
 
-    # create a temp file & open it
-    $create = $zip->open(__DIR__ . '/archive'.date("Y-m-d_H-i-s").'.zip', ZipArchive::CREATE);
+    // # create a temp file & open it
+    // $create = $zip->open(__DIR__ . '/archive'.date("Y-m-d_H-i-s").'.zip', ZipArchive::CREATE);
 
-    if ( $create === TRUE) {
-        echo "\n Арихв создан\n";
-    } else {
-        echo 'Архив не создан, код ошибки: ', $create;
-        fwrite(STDERR, "Error while creating archive file");
-        exit(1);
-    }
+    // if ( $create === TRUE) {
+    //     echo "\n Арихв создан\n";
+    // } else {
+    //     echo 'Архив не создан, код ошибки: ', $create;
+    //     fwrite(STDERR, "Error while creating archive file");
+    //     exit(1);
+    // }
 
-    # loop through each file
-    foreach ($files as $file) {
-        # download file
-        if(file_exists($file)){
-            #add it to the zip
-            $zip->addFile($file, basename($file));
-        }
-    }
+    // # loop through each file
+    // foreach ($files as $file) {
+    //     # download file
+    //     if(file_exists($file)){
+    //         #add it to the zip
+    //         $zip->addFile($file, basename($file));
+    //     }
+    // }
 
     # close zip
-    if($zip->close()){
+   // if($zip->close()){
         foreach ($files as $file) {
             # download file
             if(file_exists($file)){
@@ -54,6 +54,6 @@ for($i = 1; $i <= $pages; $i++){
                 unlink($file);
             }
         }
-    }
+   // }
 }
 
