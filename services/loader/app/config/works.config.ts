@@ -33,7 +33,7 @@ export default [
             4000
         ],
 
-        countProcesses:1,
+        countProcesses:4,
         countUrlsInOneProcess:5
     },
    
