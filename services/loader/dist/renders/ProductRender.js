@@ -55,14 +55,14 @@ class ProductRender extends Render_1.default {
                 yield tabCharacters.click();
                 let characters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 20000);
                 characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
-                this.driver.executeScript(`
+                yield this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
                     aboutProduct.id = 'nparser-about-product';
                     document.body.appendChild(aboutProduct);
             `);
             }
             catch (err) {
-                this.logger.info(err);
+                //this.logger.info(err)
             }
         });
     }

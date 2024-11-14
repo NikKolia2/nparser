@@ -64,13 +64,13 @@ export default class ProductRender extends Render {
                 20000
             )
 
-            this.driver.executeScript(`
+            await this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
                     aboutProduct.id = 'nparser-about-product';
                     document.body.appendChild(aboutProduct);
             `)
         }catch(err){
-            this.logger.info(err)
+           //this.logger.info(err)
         }
     }
 
