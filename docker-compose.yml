@@ -17,11 +17,10 @@ services:
     stdin_open: true
     volumes:
       - ./:/parser
-    # command: 
-    #   - /bin/bash 
-    #   - -c 
-    #   - php services/parser/composer.phar install
-    #   - services/parser/start
+    command: 
+      - /bin/bash 
+      - -c 
+      - services/parser/start
     ports:
       - 8001:8001
     expose:
