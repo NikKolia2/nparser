@@ -20,7 +20,9 @@ export default [
             ]
         },
         timeOutsBeforOpenUrl:[
-            1520,
+            800,
+            900,
+            1250,
             1650,
             1350,
             1300
