@@ -38,18 +38,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
 class Render {
-    constructor(driver) {
+    constructor(driver, url) {
         this.loggerName = "Render";
         this.driver = driver;
+        this.url = url;
         this.logger = log4js.getLogger(this.loggerName);
         this.logger.level = logger_config_1.default.level;
     }
-    get(url) {
+    get() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.driver.get(url);
+                yield this.driver.get(this.url);
             }
             catch (err) {
+                this.logger.error("Ошибка получения станицы " + this.url);
                 throw err;
             }
         });
@@ -57,13 +59,33 @@ class Render {
     validate(html) {
         return true;
     }
-    render(html) {
+    render() {
         return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.driver.get(this.url);
+            }
+            catch (err) {
+                throw err;
+            }
+        });
+    }
+    getHTML() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let html;
+            try {
+                html = yield this.driver.executeScript("return document.getElementsByTagName('html')[0].innerHTML");
+            }
+            catch (err) {
+                return null;
+            }
             if (!this.validate(html)) {
                 return null;
             }
-            return html;
+            return this._getHTML(html);
         });
+    }
+    _getHTML(html) {
+        return html;
     }
 }
 exports.default = Render;

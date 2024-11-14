@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ChromeDriver_1 = __importDefault(require("./ChromeDriver"));
+const SeleniumStealth = require("selenium-stealth/selenium_stealth");
 exports.default = new class HelperServise {
     sleep(ms) {
         return new Promise(resolve => global.setTimeout(resolve, ms));
@@ -22,6 +23,16 @@ exports.default = new class HelperServise {
             try {
                 let builder = yield ChromeDriver_1.default.init(driverConfig);
                 let driver = builder.build();
+                //await  driver.createCDPConnection("page")
+                // const seleniumStealth = new SeleniumStealth(driver);
+                // await seleniumStealth.stealth({
+                //     languages: ["ja", "en-US", "en"],
+                //     vendor: "Google Inc.",
+                //     platform: "Win32",
+                //     webglVendor: "Intel Inc.",
+                //     renderer: "Intel Iris OpenGL Engine",
+                //     fixHairline: true
+                // })
                 yield driver.executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
                 return driver;
             }

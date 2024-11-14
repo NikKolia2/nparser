@@ -2,6 +2,7 @@ import ChromeDriver from "./ChromeDriver";
 import { ThenableWebDriver } from "selenium-webdriver";
 import DriverConfig from "./DriverConfig";
 import { error } from "selenium-webdriver";
+const SeleniumStealth = require("selenium-stealth/selenium_stealth"); 
 
 export default new class HelperServise{
     sleep(ms: number): Promise<void> {
@@ -12,8 +13,20 @@ export default new class HelperServise{
         try {
             let builder = await ChromeDriver.init(driverConfig);
             let driver = builder.build();  
+           //await  driver.createCDPConnection("page")
+            // const seleniumStealth = new SeleniumStealth(driver);
+            // await seleniumStealth.stealth({
+            //     languages: ["ja", "en-US", "en"],
+            //     vendor: "Google Inc.",
+            //     platform: "Win32",
+            //     webglVendor: "Intel Inc.",
+            //     renderer: "Intel Iris OpenGL Engine",
+            //     fixHairline: true
+            // })
+    
             await driver.executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
 
+           
             return driver;
         }catch(err){
             throw err;

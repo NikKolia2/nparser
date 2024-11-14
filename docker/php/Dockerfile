@@ -37,3 +37,19 @@ RUN docker-php-ext-install \
     gd
 
 RUN echo 'memory_limit = 3048M' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Add user for laravel application
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# Copy existing application directory contents
+COPY . /parser
+
+# Copy existing application directory permissions
+COPY --chown=www:www . /parser
+
+# Change current user to www
+USER www

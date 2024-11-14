@@ -15,21 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Render_1 = __importDefault(require("../lib/Render"));
 const selenium_webdriver_1 = require("selenium-webdriver");
 class ProductRender extends Render_1.default {
-    get(url) {
+    get() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.driver.get(url);
-                this.driver.sleep;
+                yield this.driver.get("https://www.vseinstrumenti.ru/represent/change/?represent_id=-1&represent_type=common");
+                yield this.driver.get(this.url);
             }
             catch (err) {
                 throw err;
             }
         });
     }
-    render(html) {
+    render() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let spinner = this.driver.findElement(selenium_webdriver_1.By.id('id_spinner'));
+                yield this.get();
+            }
+            catch (err) {
+                throw err;
+            }
+            try {
+                let spinner = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.id('id_spinner')), 1000);
                 yield this.driver.wait(selenium_webdriver_1.until.elementIsNotVisible(spinner), 5000);
             }
             catch (err) {
@@ -57,10 +63,13 @@ class ProductRender extends Render_1.default {
             }
             catch (err) {
                 this.logger.info(err);
-                return html;
             }
-            return html;
         });
+    }
+    _getHTML(html) {
+        // let dom = DomParser.parseFromString(html);
+        // let tags = dom.getElementsByTagName("style");
+        return html;
     }
 }
 exports.default = ProductRender;

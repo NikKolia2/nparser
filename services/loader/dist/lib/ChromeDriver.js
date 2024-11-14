@@ -57,7 +57,7 @@ class ChromeDriver extends selenium_webdriver_1.Builder {
             }
             builder.forBrowser(selenium_webdriver_1.Browser.CHROME);
             if (config === null || config === void 0 ? void 0 : config.serverUrl) {
-                builder.usingServer(config.serverUrl);
+                // builder.usingServer(config.serverUrl);
             }
             if (config === null || config === void 0 ? void 0 : config.args.length) {
                 builder.options.addArguments(...config.args);
@@ -118,10 +118,9 @@ class ChromeDriver extends selenium_webdriver_1.Builder {
             {urls: ["<all_urls>"]},
             ['blocking']
         );`;
-        let dir = "app/lib/proxy/" + proxy.username + "";
+        let dir = "/parser/services/loader/app/lib/proxy/" + proxy.username;
         try {
             if (!fs_1.default.existsSync(dir)) {
-                console.log(123);
                 fs_1.default.mkdirSync(dir);
             }
             fs_1.default.openSync(dir + '/manifest.json', 'w');

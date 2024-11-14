@@ -45,43 +45,24 @@ class LoadHTML {
         this.driver = driver;
         this.url = url;
         this.typeProcessId = typeProcessId;
-        this.render = new (render_config_1.default.get(this.typeProcessId))(driver);
+        this.render = new (render_config_1.default.get(this.typeProcessId))(driver, url);
         this.logger = log4js.getLogger("LoadHTML");
         this.logger.level = logger_config_1.default.level;
-    }
-    get() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield this.render.get(this.url);
-            }
-            catch (err) {
-                this.logger.error("Ошибка получения станицы " + this.url);
-                throw err;
-            }
-        });
     }
     save(pathToSaveHTML_1) {
         return __awaiter(this, arguments, void 0, function* (pathToSaveHTML, overwrite = false) {
             let fullPathSave = pathToSaveHTML + this.getHashURL(this.url) + ".html";
             if (!this.fileExists(fullPathSave) || overwrite) {
                 try {
-                    yield this.get();
+                    yield this.render.render();
                 }
                 catch (err) {
                     return false;
                 }
-                let html;
-                try {
-                    html = yield this.driver.executeScript("return document.getElementsByTagName('html')[0].innerHTML");
-                }
-                catch (err) {
-                    this.logger.error("Ошибка получения содержимого станицы");
-                    return false;
-                }
-                let renderHtml = yield this.render.render(html);
+                let renderHtml = yield this.render.getHTML();
                 if (!renderHtml)
                     return false;
-                html = renderHtml;
+                let html = renderHtml;
                 fs_1.default.openSync(fullPathSave, 'w');
                 fs_1.default.writeFile(fullPathSave, html, (err) => {
                     if (err)

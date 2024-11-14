@@ -41,7 +41,7 @@ export default class Loader {
                     HelperService.getChromedriver(this.driverConfig).then(driver =>{
                         resolve({driver, urlData})
                     }).catch(err => {
-                        this.logger.error("строка 44 - " + err);
+                        this.logger.error(err);
                     })
                 }))
             });
@@ -50,9 +50,19 @@ export default class Loader {
             await processRepository.setStatusDownloading(urls);
             
             let loads:Array<Promise<boolean>> = [];
-            responseConnect.forEach(element => {
+            let lastSeconds = 0
+            responseConnect.forEach((element, index) => {
                 loads.push(new Promise((resolve) => {
-                    HelperService.sleep(this.getRandomTimeOut(this.timeOutsBeforOpenUrl)).then(() => {
+                    let timeout:number;
+                    if(index == 0){
+                        timeout = 0
+                    }else{
+                        timeout = this.getRandomTimeOut(this.timeOutsBeforOpenUrl)  + lastSeconds
+                        lastSeconds = timeout
+                    }
+
+                    HelperService.sleep(timeout).then(() => {
+                        this.logger.info(element.urlData.url)
                         let loadHTML = new LoadHTML(element.driver, element.urlData.url, element.urlData.type_id);
                         
                         return loadHTML.save(this.pathToSaveHTML).then(success => {

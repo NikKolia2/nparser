@@ -21,8 +21,9 @@ export default class ChromeDriver extends Builder{
         config:null|DriverConfig = null
     ):Promise<Builder>{
         let builder = new ChromeDriver();
+        
+      
         if(config?.proxy){
-           
             await builder.addExtProxy(config.proxy)
         }
 
@@ -32,7 +33,7 @@ export default class ChromeDriver extends Builder{
         
         builder.forBrowser(Browser.CHROME);
         if(config?.serverUrl){
-            builder.usingServer(config.serverUrl);
+           // builder.usingServer(config.serverUrl);
         }
 
         if(config?.args.length){
@@ -98,11 +99,10 @@ export default class ChromeDriver extends Builder{
             ['blocking']
         );`
 
-        let dir = "app/lib/proxy/"+proxy.username+"";
+        let dir = "/parser/services/loader/app/lib/proxy/"+proxy.username;
         try{
             
             if (!fs.existsSync(dir)) {
-                console.log(123)
                 fs.mkdirSync(dir);
             }
             
@@ -120,7 +120,7 @@ export default class ChromeDriver extends Builder{
         zip.addFile(dir+'/background.js');
         
         return new Promise<ChromeDriver>((resolve, reject) => {
-            
+          
             zip.archive(dir+'/proxy_auth_plugin.zip').then(() => {
                 let options = new Options();
                 options.addExtensions(pluginfile);

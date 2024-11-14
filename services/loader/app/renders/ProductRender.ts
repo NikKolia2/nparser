@@ -1,19 +1,30 @@
+import DomParser from 'dom-parser';
 import Render from '../lib/Render';
 import { By, until } from 'selenium-webdriver';
 
 export default class ProductRender extends Render {
-    async get(url:string): Promise<void> {
+    async get(): Promise<void> {
         try{
-            await this.driver.get(url)
-            this.driver.sleep
+            await this.driver.get("https://www.vseinstrumenti.ru/represent/change/?represent_id=-1&represent_type=common");
+            await this.driver.get(this.url)
         }catch(err){
-            throw err;
+            throw err
         } 
     }
 
-    async render(html: string): Promise<string | null> {
+    async render():Promise<void>{
+        try{
+            await this.get()
+        }catch(err){
+            throw err;
+        }
+      
         try {
-            let spinner = this.driver.findElement(By.id('id_spinner'))
+            let spinner = await this.driver.wait(
+                until.elementLocated(By.id('id_spinner')),
+                1000
+            );
+
             await this.driver.wait(until.elementIsNotVisible(spinner), 5000)
         }catch(err){
            // this.logger.info(err)
@@ -60,9 +71,13 @@ export default class ProductRender extends Render {
             `)
         }catch(err){
             this.logger.info(err)
-            return html
         }
+    }
 
-        return html
+    _getHTML(html: string): string {
+        // let dom = DomParser.parseFromString(html);
+        // let tags = dom.getElementsByTagName("style");
+      
+        return html;
     }
 }

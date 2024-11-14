@@ -1,8 +1,9 @@
+import driverConfig from "./driver.config";
 
 export default [
     {
         driverConfig:{
-            serverUrl:"http://nparser_selenium:4444/wd/hub",
+            serverUrl:"http://nparser_vseinstruments_selenium:4444/wd/hub",
             capabilities:{
                 'goog:chromeOptions': {
                     excludeSwitches: [
@@ -11,35 +12,29 @@ export default [
                     ],
                 },
             },
-            proxy:{
-                host:"178.234.28.84",
-                port:"40875",
-                username:"12ff57a8e5",
-                password:"a8271ae51f"
-            },
-
+            proxy:null,
             args:[
                 "--disable-blink-features=AutomationControlled",
-                "--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 YaBrowser/24.7.0.0 Safari/537.36"
+                "--headless",
+                "--user-agent=Mozilla/5.0 (Linux x86_64) AppleWebKit/535.32 (KHTML, like Gecko) Chrome/49.0.2863.238 Safari/601"
             ]
         },
         timeOutsBeforOpenUrl:[
-            800,
-            900,
-            1100,
-            1150,
-            1200,
-            1050
+            1520,
+            1650,
+            1350,
+            1300
         ],
 
         timeOutsAfterSaveStep:[
-            2050,
-            3200,
+            2250,
+            3250,
             3500,
             4000
         ],
 
-        countProcesses:4,
+        countProcesses:1,
         countUrlsInOneProcess:5
-    }
+    },
+   
 ]

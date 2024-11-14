@@ -62,16 +62,26 @@ class Loader {
                         HelperService_1.default.getChromedriver(this.driverConfig).then(driver => {
                             resolve({ driver, urlData });
                         }).catch(err => {
-                            this.logger.error("строка 44 - " + err);
+                            this.logger.error(err);
                         });
                     }));
                 });
                 let responseConnect = yield Promise.all(drivers);
                 yield process_repository_1.default.setStatusDownloading(urls);
                 let loads = [];
-                responseConnect.forEach(element => {
+                let lastSeconds = 0;
+                responseConnect.forEach((element, index) => {
                     loads.push(new Promise((resolve) => {
-                        HelperService_1.default.sleep(this.getRandomTimeOut(this.timeOutsBeforOpenUrl)).then(() => {
+                        let timeout;
+                        if (index == 0) {
+                            timeout = 0;
+                        }
+                        else {
+                            timeout = this.getRandomTimeOut(this.timeOutsBeforOpenUrl) + lastSeconds;
+                            lastSeconds = timeout;
+                        }
+                        HelperService_1.default.sleep(timeout).then(() => {
+                            this.logger.info(element.urlData.url);
                             let loadHTML = new LoadHTML_1.default(element.driver, element.urlData.url, element.urlData.type_id);
                             return loadHTML.save(this.pathToSaveHTML).then(success => {
                                 if (success) { //Если валидный html то добавляем в массив на парсинг
