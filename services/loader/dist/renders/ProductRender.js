@@ -60,7 +60,7 @@ class ProductRender extends Render_1.default {
             try {
                 yield this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
-                if(aboutProduct){}
+                if(aboutProduct){
                     aboutProduct.id = 'nparser-about-product';
                     document.body.appendChild(aboutProduct);
                 }
