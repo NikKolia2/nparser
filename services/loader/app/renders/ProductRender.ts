@@ -66,11 +66,22 @@ export default class ProductRender extends Render {
             }
 
             try{
+                let bar = this.driver.findElement(By.xpath("//*[contains(@class, 'js-sticky-bar-anchor')]"));
+                await this.driver.executeScript(`
+                    let element = arguments[0]; 
+                    element.parentNode.removeChild(element)
+                `, bar)
+            }catch(err){
+
+            }
+
+            try{
                 await tabCharacters.click();
                 await this.driver.wait(until.elementIsVisible(tabCharacters), 5000)
             }catch(err){
                 this.logger.info(6)
                 this.logger.info(this.url)
+                this.logger.info(6)
                 throw err
             }
         }

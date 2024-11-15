@@ -75,12 +75,22 @@ class ProductRender extends Render_1.default {
                     this.logger.info(err);
                 }
                 try {
+                    let bar = this.driver.findElement(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-sticky-bar-anchor')]"));
+                    yield this.driver.executeScript(`
+                    let element = arguments[0]; 
+                    element.parentNode.removeChild(element)
+                `, bar);
+                }
+                catch (err) {
+                }
+                try {
                     yield tabCharacters.click();
                     yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 5000);
                 }
                 catch (err) {
                     this.logger.info(6);
                     this.logger.info(this.url);
+                    this.logger.info(6);
                     throw err;
                 }
             }
