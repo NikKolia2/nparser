@@ -29,21 +29,6 @@ export default class ProductRender extends Render {
         }catch(err){
            // this.logger.info(err)
         }
-        
-        try {
-            let modal = await this.driver.wait(
-                until.elementLocated(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']")),
-                5000
-            )
-            
-            modal = await this.driver.wait(until.elementIsVisible(modal), 2000);
-            await modal.click()
-        }catch(err){
-            this.logger.info(5)
-            this.logger.info(this.url)
-          //  this.logger.info(err)
-            //this.logger.info(err)
-        }
 
         let tabCharacters:WebElement
         try {
@@ -52,8 +37,7 @@ export default class ProductRender extends Render {
                 20000
             )
         }catch(err){
-            this.logger.info(1);
-            throw err
+           throw err
         }
 
         try {
@@ -71,6 +55,23 @@ export default class ProductRender extends Render {
 
         try{
             await tabCharacters.click()
+        }catch(err){
+            try {
+                let modal = this.driver.findElement(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"))
+                await modal.click()
+            }catch(err){
+              
+            }
+
+            try{
+                await tabCharacters.click()
+            }catch(err){
+                this.logger.info(6)
+                this.logger.info(this.url)
+            }
+        }
+
+        try{
             let characters = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 
                 20000

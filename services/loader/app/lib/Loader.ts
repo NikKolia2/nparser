@@ -47,6 +47,7 @@ export default class Loader {
             });
 
             let responseConnect = await Promise.all(drivers);
+            this.logger.info("Браузеры открыты")
             await processRepository.setStatusDownloading(urls);
             
             let loads:Array<Promise<boolean>> = [];

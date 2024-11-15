@@ -41,23 +41,11 @@ class ProductRender extends Render_1.default {
             catch (err) {
                 // this.logger.info(err)
             }
-            try {
-                let modal = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']")), 5000);
-                modal = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(modal), 2000);
-                yield modal.click();
-            }
-            catch (err) {
-                this.logger.info(5);
-                this.logger.info(this.url);
-                //  this.logger.info(err)
-                //this.logger.info(err)
-            }
             let tabCharacters;
             try {
                 tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
             }
             catch (err) {
-                this.logger.info(1);
                 throw err;
             }
             try {
@@ -75,6 +63,23 @@ class ProductRender extends Render_1.default {
             }
             try {
                 yield tabCharacters.click();
+            }
+            catch (err) {
+                try {
+                    let modal = this.driver.findElement(selenium_webdriver_1.By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"));
+                    yield modal.click();
+                }
+                catch (err) {
+                }
+                try {
+                    yield tabCharacters.click();
+                }
+                catch (err) {
+                    this.logger.info(6);
+                    this.logger.info(this.url);
+                }
+            }
+            try {
                 let characters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 20000);
                 characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
             }

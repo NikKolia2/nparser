@@ -67,6 +67,7 @@ class Loader {
                     }));
                 });
                 let responseConnect = yield Promise.all(drivers);
+                this.logger.info("Браузеры открыты");
                 yield process_repository_1.default.setStatusDownloading(urls);
                 let loads = [];
                 let lastSeconds = 0;
