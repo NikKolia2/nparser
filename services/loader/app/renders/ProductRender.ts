@@ -40,7 +40,7 @@ export default class ProductRender extends Render {
             await modal.click()
         }catch(err){
             this.logger.info(4)
-            throw err
+            this.logger.info(err)
             //this.logger.info(err)
         }
 
