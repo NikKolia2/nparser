@@ -48,7 +48,7 @@ class ProductRender extends Render_1.default {
             }
             catch (err) {
                 this.logger.info(4);
-                throw err;
+                this.logger.info(err);
                 //this.logger.info(err)
             }
             let tabCharacters;
