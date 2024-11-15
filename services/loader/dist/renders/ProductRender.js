@@ -76,6 +76,7 @@ class ProductRender extends Render_1.default {
                 }
                 try {
                     yield tabCharacters.click();
+                    yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 5000);
                 }
                 catch (err) {
                     this.logger.info(6);
