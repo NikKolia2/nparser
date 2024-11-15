@@ -58,7 +58,7 @@ class Work {
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 10) {
+            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15) {
                 let process = this.getFreeProcess();
                 if (process != null) {
                     this.logger.info("Старт процесса");

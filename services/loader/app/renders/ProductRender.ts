@@ -76,8 +76,9 @@ export default class ProductRender extends Render {
             }
 
             try{
-                await tabCharacters.click();
                 await this.driver.wait(until.elementIsVisible(tabCharacters), 5000)
+                await tabCharacters.click();
+ 
             }catch(err){
                 this.logger.info(6)
                 this.logger.info(this.url)

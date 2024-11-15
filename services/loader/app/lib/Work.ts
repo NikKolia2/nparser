@@ -38,7 +38,7 @@ export default class Work {
     }
 
     async run(){
-        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 10){  
+        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15){  
             let process = this.getFreeProcess()
             if(process != null){
                 this.logger.info("Старт процесса")
