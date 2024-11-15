@@ -47,8 +47,9 @@ class ProductRender extends Render_1.default {
                 yield modal.click();
             }
             catch (err) {
-                this.logger.info(4);
-                this.logger.info(err);
+                this.logger.info(5);
+                this.logger.info(this.url);
+                //  this.logger.info(err)
                 //this.logger.info(err)
             }
             let tabCharacters;
@@ -80,7 +81,7 @@ class ProductRender extends Render_1.default {
             catch (err) {
                 this.logger.info(4);
                 this.logger.info(this.url);
-                this.logger.info(err);
+                //this.logger.info(err);
                 throw err;
             }
         });

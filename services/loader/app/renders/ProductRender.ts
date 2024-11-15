@@ -39,8 +39,9 @@ export default class ProductRender extends Render {
             modal = await this.driver.wait(until.elementIsVisible(modal), 2000);
             await modal.click()
         }catch(err){
-            this.logger.info(4)
-            this.logger.info(err)
+            this.logger.info(5)
+            this.logger.info(this.url)
+          //  this.logger.info(err)
             //this.logger.info(err)
         }
 
@@ -82,7 +83,7 @@ export default class ProductRender extends Render {
         }catch(err){
             this.logger.info(4);
             this.logger.info(this.url)
-            this.logger.info(err);
+            //this.logger.info(err);
            
             throw err
         }
