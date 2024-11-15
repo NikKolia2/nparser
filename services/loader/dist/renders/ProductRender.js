@@ -49,12 +49,22 @@ class ProductRender extends Render_1.default {
             catch (err) {
                 //this.logger.info(err)
             }
+            let tabCharacters;
             try {
-                let tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
-                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
-                yield tabCharacters.click();
-                let characters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 20000);
-                characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
+                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
+            }
+            catch (err) {
+                this.logger.info(1);
+                throw err;
+            }
+            try {
+                yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
+            }
+            catch (err) {
+                this.logger.info(2);
+                throw err;
+            }
+            try {
                 yield this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
                     aboutProduct.id = 'nparser-about-product';
@@ -62,7 +72,17 @@ class ProductRender extends Render_1.default {
             `);
             }
             catch (err) {
-                //this.logger.info(err)
+                this.logger.info(3);
+                throw err;
+            }
+            try {
+                yield tabCharacters.click();
+                let characters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 20000);
+                characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
+            }
+            catch (err) {
+                this.logger.info(4);
+                throw err;
             }
         });
     }
