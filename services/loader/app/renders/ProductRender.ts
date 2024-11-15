@@ -1,6 +1,6 @@
 import DomParser from 'dom-parser';
 import Render from '../lib/Render';
-import { By, until } from 'selenium-webdriver';
+import { By, until, WebElement, WebElementPromise } from 'selenium-webdriver';
 
 export default class ProductRender extends Render {
     async get(): Promise<void> {
@@ -42,17 +42,39 @@ export default class ProductRender extends Render {
             //this.logger.info(err)
         }
 
+        let tabCharacters:WebElement
         try {
-            let tabCharacters = await this.driver.wait(
+            tabCharacters = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 
                 20000
             )
+        }catch(err){
+            this.logger.info(1);
+            throw err
+        }
 
-            tabCharacters = await this.driver.wait(
+        try{
+            await this.driver.wait(
                 until.elementIsVisible(tabCharacters), 
                 20000
             )
+        }catch(err){
+            this.logger.info(2);
+            throw err
+        }
 
+        try {
+            await this.driver.executeScript(`
+                let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
+                    aboutProduct.id = 'nparser-about-product';
+                    document.body.appendChild(aboutProduct);
+            `)
+        }catch(err){
+            this.logger.info(3);
+            throw err
+        }
+
+        try{
             await tabCharacters.click()
             let characters = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'card-product-section-main')]//*[contains(@class, 'eGhYU27ERpoFI9K0pm4e')]")), 
@@ -63,15 +85,12 @@ export default class ProductRender extends Render {
                 until.elementIsVisible(tabCharacters), 
                 20000
             )
-
-            await this.driver.executeScript(`
-                let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
-                    aboutProduct.id = 'nparser-about-product';
-                    document.body.appendChild(aboutProduct);
-            `)
         }catch(err){
-           //this.logger.info(err)
+            this.logger.info(4);
+            throw err
         }
+          
+     
     }
 
     _getHTML(html: string): string {
