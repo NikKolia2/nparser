@@ -70,6 +70,9 @@ class ProductRender extends Render_1.default {
                     yield modal.click();
                 }
                 catch (err) {
+                    this.logger.info(5);
+                    this.logger.info(this.url);
+                    this.logger.info(err);
                 }
                 try {
                     yield tabCharacters.click();

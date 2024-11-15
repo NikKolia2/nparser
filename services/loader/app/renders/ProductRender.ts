@@ -60,7 +60,9 @@ export default class ProductRender extends Render {
                 let modal = this.driver.findElement(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"))
                 await modal.click()
             }catch(err){
-              
+                this.logger.info(5)
+                this.logger.info(this.url)
+                this.logger.info(err)
             }
 
             try{
