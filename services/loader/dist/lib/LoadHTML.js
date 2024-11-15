@@ -57,6 +57,17 @@ class LoadHTML {
                     yield this.render.render();
                 }
                 catch (err) {
+                    fs_1.default.openSync("/parser/starage/error/" + this.getHashURL(this.url) + ".html", 'w');
+                    let renderHtml = yield this.render.getHTML();
+                    let html;
+                    if (!renderHtml)
+                        html = "";
+                    else
+                        html = renderHtml;
+                    fs_1.default.writeFile("/parser/starage/error/" + this.getHashURL(this.url) + ".html", html, (err) => {
+                        if (err)
+                            throw err;
+                    });
                     return false;
                 }
                 let renderHtml = yield this.render.getHTML();
