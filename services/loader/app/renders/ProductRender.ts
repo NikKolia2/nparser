@@ -39,6 +39,8 @@ export default class ProductRender extends Render {
             modal = await this.driver.wait(until.elementIsVisible(modal), 2000);
             await modal.click()
         }catch(err){
+            this.logger.info(4)
+            throw err
             //this.logger.info(err)
         }
 
