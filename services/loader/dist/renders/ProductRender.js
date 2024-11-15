@@ -58,19 +58,12 @@ class ProductRender extends Render_1.default {
                 throw err;
             }
             try {
-                yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
-            }
-            catch (err) {
-                this.logger.info(this.url);
-                this.logger.info(2);
-                this.logger.info(err);
-                throw err;
-            }
-            try {
                 yield this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
+                if(aboutProduct){}
                     aboutProduct.id = 'nparser-about-product';
                     document.body.appendChild(aboutProduct);
+                }
             `);
             }
             catch (err) {

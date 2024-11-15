@@ -53,23 +53,13 @@ export default class ProductRender extends Render {
             throw err
         }
 
-        try{
-            await this.driver.wait(
-                until.elementIsVisible(tabCharacters), 
-                20000
-            )
-        }catch(err){
-            this.logger.info(this.url);
-            this.logger.info(2);
-            this.logger.info(err)
-            throw err
-        }
-
         try {
             await this.driver.executeScript(`
                 let aboutProduct = document.querySelector('.b-preloader-ajax')?.cloneNode(true);
+                if(aboutProduct){}
                     aboutProduct.id = 'nparser-about-product';
                     document.body.appendChild(aboutProduct);
+                }
             `)
         }catch(err){
             this.logger.info(3);
