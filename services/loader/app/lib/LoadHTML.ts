@@ -28,15 +28,15 @@ export default class LoadHTML {
             try{
                 await this.render.render()
             }catch(err){
-                fs.openSync("/parser/starage/error/"+this.getHashURL(this.url) + ".html", 'w');
+                fs.openSync("/parser/storage/error/"+this.getHashURL(this.url) + ".html", 'w');
                 let renderHtml:string|null = await this.render.getHTML();
                 let html:string;
                 if(!renderHtml)
                     html = "";
                 else
                     html = renderHtml
-                
-                fs.writeFile("/parser/starage/error/"+this.getHashURL(this.url) + ".html", html, (err) => {
+
+                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", html, (err) => {
                     if (err) throw err; 
                 });
     
