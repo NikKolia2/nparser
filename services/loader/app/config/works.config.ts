@@ -23,7 +23,6 @@ export default [
             800,
             900,
             1250,
-            1650,
             1350,
             1300
         ],
@@ -35,7 +34,7 @@ export default [
             4000
         ],
 
-        countProcesses:4,
+        countProcesses:2,
         countUrlsInOneProcess:5
     },
    
