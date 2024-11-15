@@ -77,6 +77,7 @@ class ProductRender extends Render_1.default {
                 catch (err) {
                     this.logger.info(6);
                     this.logger.info(this.url);
+                    throw err;
                 }
             }
             try {

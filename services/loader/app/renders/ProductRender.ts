@@ -68,6 +68,7 @@ export default class ProductRender extends Render {
             }catch(err){
                 this.logger.info(6)
                 this.logger.info(this.url)
+                throw err
             }
         }
 
