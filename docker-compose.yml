@@ -9,6 +9,10 @@ services:
     volumes:
       - ./:/parser
       - /etc/letsencrypt/live/api.santehnika-online.nikparser.ru/:/etc/letsencrypt/live/api.santehnika-online.nikparser.ru/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
     
   parser:
     build: ./docker/php/
@@ -21,6 +25,10 @@ services:
       - /bin/bash 
       - -c 
       - services/parser/start
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
     ports:
       - 8001:8001
     expose:
@@ -41,6 +49,10 @@ services:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
 
   loader:
     build: ./docker/loader/
@@ -54,6 +66,10 @@ services:
     volumes:
      - /dev/shm:/dev/shm
      - .:/parser
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
 
   cron:
     build: ./docker/cron/
@@ -63,6 +79,10 @@ services:
     tty: true
     volumes:
       - .:/parser
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
    #Nginx Service
   nginx:
     image: nginx:alpine
@@ -76,6 +96,10 @@ services:
       - .:/parser
       -  /etc/letsencrypt/:/etc/letsencrypt/
       - ./docker/nginx/vhosts.conf:/etc/nginx/conf.d/default.conf:delegated
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
 
 networks:
   default:
