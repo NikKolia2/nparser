@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/parser
       - /etc/letsencrypt/live/api.santehnika-online.nikparser.ru/:/etc/letsencrypt/live/api.santehnika-online.nikparser.ru/
-   logging:
+    logging:
       driver: "local"
       options:
         max-size: 50m
