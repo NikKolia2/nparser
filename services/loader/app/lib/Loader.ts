@@ -29,6 +29,9 @@ export default class Loader {
     }
 
     async loop(data:Process[]){
+        const EventEmitter = require('events');
+        const emitter = new EventEmitter()
+        emitter.setMaxListeners(30)
         if(data.length){
             this.logger.info("Загрузка данных начата")
             let urls = data.map((item) => item.url);

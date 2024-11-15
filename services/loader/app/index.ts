@@ -7,9 +7,7 @@ import * as log4js from "log4js";
 
 const pathToSaveHTML =  "/parser/storage/html/";
 
-const EventEmitter = require('events');
-const emitter = new EventEmitter()
-emitter.setMaxListeners(30)
+
 
 let logger = log4js.getLogger("index")
 logger.level = loggerConfig.level
