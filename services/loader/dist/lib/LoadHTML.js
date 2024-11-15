@@ -70,7 +70,7 @@ class LoadHTML {
                     });
                     var base64Data = yield this.driver.takeScreenshot();
                     base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
-                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + "png", base64Data, 'base64', function (err) {
+                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".png", base64Data, 'base64', function (err) {
                         console.log(err);
                     });
                     return false;
