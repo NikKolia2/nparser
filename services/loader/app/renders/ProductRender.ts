@@ -50,7 +50,7 @@ export default class ProductRender extends Render {
             `)
         }catch(err){
           
-            throw err
+           // throw err
         }
 
         try{
@@ -79,7 +79,7 @@ export default class ProductRender extends Render {
  
             }catch(err){
 
-                throw err
+               // throw err
             }
         }
 
@@ -95,7 +95,7 @@ export default class ProductRender extends Render {
             )
         }catch(err){
            
-            throw err
+            //throw err
         }
           
      

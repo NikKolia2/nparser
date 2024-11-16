@@ -58,7 +58,7 @@ class ProductRender extends Render_1.default {
             `);
             }
             catch (err) {
-                throw err;
+                // throw err
             }
             try {
                 yield tabCharacters.click();
@@ -84,7 +84,7 @@ class ProductRender extends Render_1.default {
                     yield tabCharacters.click();
                 }
                 catch (err) {
-                    throw err;
+                    // throw err
                 }
             }
             try {
@@ -92,7 +92,7 @@ class ProductRender extends Render_1.default {
                 characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
             }
             catch (err) {
-                throw err;
+                //throw err
             }
         });
     }
