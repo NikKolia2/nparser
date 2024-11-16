@@ -64,6 +64,7 @@ services:
     environment:
       - SE_VNC_NO_PASSWORD=1
       - SE_ENABLE_TRACING=false
+      - SE_START_VNC=false
     ports:
      - "4444:4444"
     volumes:
