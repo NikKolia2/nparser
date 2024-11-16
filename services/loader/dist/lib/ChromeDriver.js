@@ -129,7 +129,7 @@ class ChromeDriver extends selenium_webdriver_1.Builder {
             fs_1.default.writeFileSync(dir + '/background.js', '' + background_js);
         }
         catch (err) {
-            console.error(err);
+            //console.error(err);
         }
         let pluginfile = dir + '/proxy_auth_plugin.zip';
         let zip = new zl.Zip();
@@ -142,7 +142,7 @@ class ChromeDriver extends selenium_webdriver_1.Builder {
                 this.setChromeOptions(options);
                 resolve(this);
             }, (err) => {
-                console.log(err);
+                // console.log(err);
                 reject(this);
             });
         });

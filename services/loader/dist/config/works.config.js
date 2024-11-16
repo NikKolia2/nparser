@@ -23,14 +23,13 @@ exports.default = [
             800,
             900,
             1250,
-            1350,
             1300
         ],
         timeOutsAfterSaveStep: [
             2250,
             3250,
             3500,
-            4000
+            3000
         ],
         countProcesses: 2,
         countUrlsInOneProcess: 5

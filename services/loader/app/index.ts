@@ -7,8 +7,6 @@ import * as log4js from "log4js";
 
 const pathToSaveHTML =  "/parser/storage/html/";
 
-
-
 let logger = log4js.getLogger("index")
 logger.level = loggerConfig.level
 logger.info("Программа запуущена")

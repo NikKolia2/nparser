@@ -23,7 +23,6 @@ export default [
             800,
             900,
             1250,
-            1350,
             1300
         ],
 
@@ -31,7 +30,7 @@ export default [
             2250,
             3250,
             3500,
-            4000
+            3000
         ],
 
         countProcesses:2,

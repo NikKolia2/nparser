@@ -44,7 +44,7 @@ export default class LoadHTML {
                 base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
 
                 fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) +".png", base64Data, 'base64', function(err) {
-                console.log(err);
+                //console.log(err);
                 });
                 return false
             }

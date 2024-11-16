@@ -111,7 +111,7 @@ export default class ChromeDriver extends Builder{
             fs.openSync(dir+'/background.js', 'w');
             fs.writeFileSync(dir+'/background.js', ''+background_js);
         } catch (err) {
-            console.error(err);
+            //console.error(err);
         }
         
         let pluginfile = dir+'/proxy_auth_plugin.zip'
@@ -127,7 +127,7 @@ export default class ChromeDriver extends Builder{
                 this.setChromeOptions(options)
                 resolve(this)
             }, (err) => {
-                console.log(err);
+               // console.log(err);
                 reject(this);
             });
         });
