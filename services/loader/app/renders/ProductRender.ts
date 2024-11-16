@@ -49,7 +49,7 @@ export default class ProductRender extends Render {
                 }
             `)
         }catch(err){
-            this.logger.info(3);
+          
             throw err
         }
 
@@ -60,9 +60,7 @@ export default class ProductRender extends Render {
                 let modal = this.driver.findElement(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"))
                 await modal.click()
             }catch(err){
-                this.logger.info(5)
-                this.logger.info(this.url)
-                this.logger.info(err)
+          
             }
 
             try{
@@ -80,9 +78,7 @@ export default class ProductRender extends Render {
                 await tabCharacters.click();
  
             }catch(err){
-                this.logger.info(6)
-                this.logger.info(this.url)
-                this.logger.info(6)
+
                 throw err
             }
         }
@@ -98,9 +94,6 @@ export default class ProductRender extends Render {
                 20000
             )
         }catch(err){
-            this.logger.info(4);
-            this.logger.info(this.url)
-            //this.logger.info(err);
            
             throw err
         }

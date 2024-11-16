@@ -69,6 +69,9 @@ services:
     volumes:
      - /dev/shm:/dev/shm
      - .:/parser
+    shm_size: 2g
+    ulimits:
+      nofile: 32768
     logging:
       driver: "local"
       options:

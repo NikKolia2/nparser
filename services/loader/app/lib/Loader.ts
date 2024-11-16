@@ -33,7 +33,7 @@ export default class Loader {
         const emitter = new EventEmitter()
         emitter.setMaxListeners(30)
         if(data.length){
-            this.logger.info("Загрузка данных начата")
+          
             let urls = data.map((item) => item.url);
             
             let validHTML:Array<string> = [];
@@ -50,7 +50,7 @@ export default class Loader {
             });
 
             let responseConnect = await Promise.all(drivers);
-            this.logger.info("Браузеры открыты")
+          
             await processRepository.setStatusDownloading(urls);
             
             let loads:Array<Promise<boolean>> = [];
@@ -66,7 +66,7 @@ export default class Loader {
                     }
 
                     HelperService.sleep(timeout).then(() => {
-                        this.logger.info(element.urlData.url)
+                        
                         let loadHTML = new LoadHTML(element.driver, element.urlData.url, element.urlData.type_id);
                         
                         return loadHTML.save(this.pathToSaveHTML).then(success => {
@@ -94,7 +94,7 @@ export default class Loader {
 
             await HelperService.sleep(this.getRandomTimeOut(this.timeOutsAfterSaveStep));
             
-            this.logger.info("Загрузка завершена")
+           
             return true;
         }else{
             return true;

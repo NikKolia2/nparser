@@ -61,10 +61,8 @@ class Work {
             if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15) {
                 let process = this.getFreeProcess();
                 if (process != null) {
-                    this.logger.info("Старт процесса");
                     process.isFree = false;
                     this.secondsFromStartProcess = this.getCurrentSeconds();
-                    this.logger.info("Получение ссылок из базы на загрузку");
                     let workerData = yield process_repository_1.default.getNewProcesses(this.countUrlsInOneProcess);
                     if (workerData.length) {
                         this.secondsFromStartProcess = this.getCurrentSeconds();
@@ -73,7 +71,6 @@ class Work {
                             process.isFree = true;
                         });
                     }
-                    this.logger.info("Остоновка процесса");
                 }
             }
         });

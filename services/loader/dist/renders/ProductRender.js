@@ -58,7 +58,6 @@ class ProductRender extends Render_1.default {
             `);
             }
             catch (err) {
-                this.logger.info(3);
                 throw err;
             }
             try {
@@ -70,9 +69,6 @@ class ProductRender extends Render_1.default {
                     yield modal.click();
                 }
                 catch (err) {
-                    this.logger.info(5);
-                    this.logger.info(this.url);
-                    this.logger.info(err);
                 }
                 try {
                     let bar = this.driver.findElement(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-sticky-bar-anchor')]"));
@@ -88,9 +84,6 @@ class ProductRender extends Render_1.default {
                     yield tabCharacters.click();
                 }
                 catch (err) {
-                    this.logger.info(6);
-                    this.logger.info(this.url);
-                    this.logger.info(6);
                     throw err;
                 }
             }
@@ -99,9 +92,6 @@ class ProductRender extends Render_1.default {
                 characters = yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 20000);
             }
             catch (err) {
-                this.logger.info(4);
-                this.logger.info(this.url);
-                //this.logger.info(err);
                 throw err;
             }
         });
