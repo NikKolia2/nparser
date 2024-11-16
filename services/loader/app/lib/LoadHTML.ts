@@ -28,24 +28,7 @@ export default class LoadHTML {
             try{
                 await this.render.render()
             }catch(err){
-                fs.openSync("/parser/storage/error/"+this.getHashURL(this.url) + ".html", 'w');
-                let renderHtml:string|null = await this.render.getHTML();
-                let html:string;
-                if(!renderHtml)
-                    html = "";
-                else
-                    html = renderHtml
-
-                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", html, (err) => {
-                    if (err) throw err; 
-                });
-                
-                var base64Data = await this.driver.takeScreenshot();
-                base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
-
-                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) +".png", base64Data, 'base64', function(err) {
-                //console.log(err);
-                });
+            
                 return false
             }
 

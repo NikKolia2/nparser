@@ -57,22 +57,6 @@ class LoadHTML {
                     yield this.render.render();
                 }
                 catch (err) {
-                    fs_1.default.openSync("/parser/storage/error/" + this.getHashURL(this.url) + ".html", 'w');
-                    let renderHtml = yield this.render.getHTML();
-                    let html;
-                    if (!renderHtml)
-                        html = "";
-                    else
-                        html = renderHtml;
-                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", html, (err) => {
-                        if (err)
-                            throw err;
-                    });
-                    var base64Data = yield this.driver.takeScreenshot();
-                    base64Data = base64Data.replace(/^data:image\/png;base64,/, "");
-                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".png", base64Data, 'base64', function (err) {
-                        console.log(err);
-                    });
                     return false;
                 }
                 let renderHtml = yield this.render.getHTML();
