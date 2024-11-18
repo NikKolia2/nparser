@@ -28,7 +28,11 @@ export default class LoadHTML {
             try{
                 await this.render.render()
             }catch(err){
-            
+                var base64Data = (await this.driver.takeScreenshot()).replace(/^data:image\/png;base64,/, "");
+                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", base64Data, 'base64', function(err) {
+                    console.log(err);
+                });
+
                 return false
             }
 
