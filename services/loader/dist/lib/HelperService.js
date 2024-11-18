@@ -44,16 +44,7 @@ exports.default = new class HelperServise {
     }
     deleteFolderRecursive(path) {
         if (fs_1.default.existsSync(path)) {
-            fs_1.default.readdirSync(path).forEach((file, index) => {
-                var curPath = path + "/" + file;
-                if (fs_1.default.lstatSync(curPath).isDirectory()) { // recurse
-                    this.deleteFolderRecursive(curPath);
-                }
-                else { // delete file
-                    fs_1.default.unlinkSync(curPath);
-                }
-            });
-            fs_1.default.rmdirSync(path);
+            fs_1.default.rmSync(path, { recursive: true, force: true });
         }
     }
 };

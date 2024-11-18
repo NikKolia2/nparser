@@ -4,6 +4,7 @@ import DriverConfig from "./DriverConfig";
 import { error } from "selenium-webdriver";
 const SeleniumStealth = require("selenium-stealth/selenium_stealth");
 import fs from 'fs'
+import { rimraf } from "rimraf";
 
 export default new class HelperServise {
     sleep(ms: number): Promise<void> {
@@ -36,16 +37,7 @@ export default new class HelperServise {
 
     deleteFolderRecursive(path: string) {
         if (fs.existsSync(path)) {
-            fs.readdirSync(path).forEach((file, index) =>  {
-                var curPath = path + "/" + file;
-                if (fs.lstatSync(curPath).isDirectory()) { // recurse
-                    this.deleteFolderRecursive(curPath);
-                } else { // delete file
-                    fs.unlinkSync(curPath);
-                }
-            });
-
-            fs.rmdirSync(path);
+           fs.rmSync(path, { recursive: true, force: true })
         }
     }
 }
