@@ -92,8 +92,9 @@ class Loader {
                                     //TODO нужно придумать подсчёт кол-во неудачных загрузок чтобы не было вечной очереди
                                     noValidHTML.push(element.urlData.url);
                                 }
-                                element.driver.quit();
-                                resolve(true);
+                                element.driver.quit().then(() => {
+                                    resolve(true);
+                                });
                             });
                         });
                     }));

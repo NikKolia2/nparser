@@ -77,8 +77,9 @@ export default class Loader {
                                 noValidHTML.push(element.urlData.url);
                             }
     
-                            element.driver.quit();
-                            resolve(true)
+                            element.driver.quit().then(() => {
+                                resolve(true)
+                            })
                         });
                     })
                 }));
