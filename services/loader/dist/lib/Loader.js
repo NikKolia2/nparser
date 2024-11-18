@@ -96,7 +96,7 @@ class Loader {
                                 element.driver.quit().then(() => {
                                     let links = fs_1.default.globSync('/tmp/.org.chromium.Chromium.*');
                                     links.forEach(link => {
-                                        fs_1.default.rmSync(link, { recursive: true, force: true });
+                                        fs_1.default.rmdirSync(link, { recursive: true });
                                     });
                                     resolve(true);
                                 });
