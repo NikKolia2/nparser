@@ -78,7 +78,11 @@ export default class Loader {
                             }
     
                             element.driver.quit().then(() => {
-                                fs.unlinkSync('/tmp/.org.chromium.Chromium.*')
+                                let links = fs.globSync('/tmp/.org.chromium.Chromium.*')
+                                links.forEach(link => {
+                                    fs.unlinkSync(link)
+                                })
+                                
                                 resolve(true)
                             })
                         });

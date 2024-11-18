@@ -94,7 +94,10 @@ class Loader {
                                     noValidHTML.push(element.urlData.url);
                                 }
                                 element.driver.quit().then(() => {
-                                    fs_1.default.unlinkSync('/tmp/.org.chromium.Chromium.*');
+                                    let links = fs_1.default.globSync('/tmp/.org.chromium.Chromium.*');
+                                    links.forEach(link => {
+                                        fs_1.default.unlinkSync(link);
+                                    });
                                     resolve(true);
                                 });
                             });
