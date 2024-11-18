@@ -35,7 +35,7 @@ export default class LoadHTML {
 
                 let html = await this.render.getHTML();
                 if(html)
-                    fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", this.render.getHTML(), function(err) {
+                    fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", html, function(err) {
                         console.log(err);
                     });
 

@@ -63,7 +63,7 @@ class LoadHTML {
                     });
                     let html = yield this.render.getHTML();
                     if (html)
-                        fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", this.render.getHTML(), function (err) {
+                        fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", html, function (err) {
                             console.log(err);
                         });
                     return false;
