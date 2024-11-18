@@ -89,11 +89,15 @@ export default class Loader {
 
             let responseLoads = await Promise.all(loads);
 
+            try {
             let links = globSync('/tmp/.org.chromium.Chromium.*')
             links.forEach(link => {
                 HelperService.deleteFolderRecursive(link)
             })
-            
+            }catch{
+                
+            }
+
             if(validHTML.length)
                 processRepository.setStatusWaitParsingAndFlagDownloaded(validHTML);
 

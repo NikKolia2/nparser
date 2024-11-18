@@ -101,10 +101,14 @@ class Loader {
                     }));
                 });
                 let responseLoads = yield Promise.all(loads);
-                let links = (0, glob_1.globSync)('/tmp/.org.chromium.Chromium.*');
-                links.forEach(link => {
-                    HelperService_1.default.deleteFolderRecursive(link);
-                });
+                try {
+                    let links = (0, glob_1.globSync)('/tmp/.org.chromium.Chromium.*');
+                    links.forEach(link => {
+                        HelperService_1.default.deleteFolderRecursive(link);
+                    });
+                }
+                catch (_a) {
+                }
                 if (validHTML.length)
                     process_repository_1.default.setStatusWaitParsingAndFlagDownloaded(validHTML);
                 if (noValidHTML.length)
