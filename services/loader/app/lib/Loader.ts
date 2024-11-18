@@ -7,6 +7,7 @@ import DriverConfig from "./DriverConfig";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
 import fs from 'fs'
+import { rimraf, rimrafSync } from "rimraf";
 export default class Loader {
     timeOutsBeforOpenUrl: Array<number>
     timeOutsAfterSaveStep: Array<number>
@@ -80,7 +81,7 @@ export default class Loader {
                             element.driver.quit().then(() => {
                                 let links = fs.globSync('/tmp/.org.chromium.Chromium.*')
                                 links.forEach(link => {
-                                    fs.rmdirSync(link, { recursive: true })
+                                    rimrafSync(link)
                                 })
                                 
                                 resolve(true)
