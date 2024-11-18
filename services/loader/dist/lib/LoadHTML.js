@@ -57,6 +57,10 @@ class LoadHTML {
                     yield this.render.render();
                 }
                 catch (err) {
+                    var base64Data = (yield this.driver.takeScreenshot()).replace(/^data:image\/png;base64,/, "");
+                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", base64Data, 'base64', function (err) {
+                        console.log(err);
+                    });
                     return false;
                 }
                 let renderHtml = yield this.render.getHTML();
