@@ -40,6 +40,7 @@ const LoadHTML_1 = __importDefault(require("./LoadHTML"));
 const HelperService_1 = __importDefault(require("./HelperService"));
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
+const fs_1 = __importDefault(require("fs"));
 class Loader {
     constructor(driverConfig, timeOutsBeforOpenUrl, timeOutsAfterSaveStep, pathToSaveHTML) {
         this.driverConfig = driverConfig;
@@ -93,6 +94,7 @@ class Loader {
                                     noValidHTML.push(element.urlData.url);
                                 }
                                 element.driver.quit().then(() => {
+                                    fs_1.default.unlinkSync('/tmp/.org.chromium.Chromium.*');
                                     resolve(true);
                                 });
                             });

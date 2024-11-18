@@ -6,7 +6,7 @@ import { Logs, ThenableWebDriver } from "selenium-webdriver";
 import DriverConfig from "./DriverConfig";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
-
+import fs from 'fs'
 export default class Loader {
     timeOutsBeforOpenUrl: Array<number>
     timeOutsAfterSaveStep: Array<number>
@@ -78,6 +78,7 @@ export default class Loader {
                             }
     
                             element.driver.quit().then(() => {
+                                fs.unlinkSync('/tmp/.org.chromium.Chromium.*')
                                 resolve(true)
                             })
                         });
