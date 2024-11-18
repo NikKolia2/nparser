@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ChromeDriver_1 = __importDefault(require("./ChromeDriver"));
 const SeleniumStealth = require("selenium-stealth/selenium_stealth");
+const fs_1 = __importDefault(require("fs"));
 exports.default = new class HelperServise {
     sleep(ms) {
         return new Promise(resolve => global.setTimeout(resolve, ms));
@@ -40,5 +41,19 @@ exports.default = new class HelperServise {
                 throw err;
             }
         });
+    }
+    deleteFolderRecursive(path) {
+        if (fs_1.default.existsSync(path)) {
+            fs_1.default.readdirSync(path).forEach((file, index) => {
+                var curPath = path + "/" + file;
+                if (fs_1.default.lstatSync(curPath).isDirectory()) { // recurse
+                    this.deleteFolderRecursive(curPath);
+                }
+                else { // delete file
+                    fs_1.default.unlinkSync(curPath);
+                }
+            });
+            fs_1.default.rmdirSync(path);
+        }
     }
 };

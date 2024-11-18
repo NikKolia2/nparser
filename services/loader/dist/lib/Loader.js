@@ -41,7 +41,6 @@ const HelperService_1 = __importDefault(require("./HelperService"));
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
 const fs_1 = __importDefault(require("fs"));
-const rimraf_1 = require("rimraf");
 class Loader {
     constructor(driverConfig, timeOutsBeforOpenUrl, timeOutsAfterSaveStep, pathToSaveHTML) {
         this.driverConfig = driverConfig;
@@ -97,7 +96,7 @@ class Loader {
                                 element.driver.quit().then(() => {
                                     let links = fs_1.default.globSync('/tmp/.org.chromium.Chromium.*');
                                     links.forEach(link => {
-                                        (0, rimraf_1.rimrafSync)(link);
+                                        HelperService_1.default.deleteFolderRecursive(link);
                                     });
                                     resolve(true);
                                 });

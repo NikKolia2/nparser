@@ -81,7 +81,7 @@ export default class Loader {
                             element.driver.quit().then(() => {
                                 let links = fs.globSync('/tmp/.org.chromium.Chromium.*')
                                 links.forEach(link => {
-                                    rimrafSync(link)
+                                    HelperService.deleteFolderRecursive(link)
                                 })
                                 
                                 resolve(true)
