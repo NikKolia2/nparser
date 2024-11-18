@@ -29,9 +29,15 @@ export default class LoadHTML {
                 await this.render.render()
             }catch(err){
                 var base64Data = (await this.driver.takeScreenshot()).replace(/^data:image\/png;base64,/, "");
-                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", base64Data, 'base64', function(err) {
+                fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".png", base64Data, 'base64', function(err) {
                     console.log(err);
                 });
+
+                let html = await this.render.getHTML();
+                if(html)
+                    fs.writeFile("/parser/storage/error/"+this.getHashURL(this.url) + ".html", this.render.getHTML(), function(err) {
+                        console.log(err);
+                    });
 
                 return false
             }

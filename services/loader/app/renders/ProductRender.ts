@@ -60,7 +60,8 @@ export default class ProductRender extends Render {
                 let modal = this.driver.findElement(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"))
                 await modal.click()
             }catch(err){
-          
+                console.log(1)
+                console.log(err)
             }
 
             try{
@@ -70,7 +71,8 @@ export default class ProductRender extends Render {
                     element.parentNode.removeChild(element)
                 `, bar)
             }catch(err){
-
+                console.log(2)
+                console.log(err)
             }
 
             try{

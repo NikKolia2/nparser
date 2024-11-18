@@ -58,9 +58,14 @@ class LoadHTML {
                 }
                 catch (err) {
                     var base64Data = (yield this.driver.takeScreenshot()).replace(/^data:image\/png;base64,/, "");
-                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", base64Data, 'base64', function (err) {
+                    fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".png", base64Data, 'base64', function (err) {
                         console.log(err);
                     });
+                    let html = yield this.render.getHTML();
+                    if (html)
+                        fs_1.default.writeFile("/parser/storage/error/" + this.getHashURL(this.url) + ".html", this.render.getHTML(), function (err) {
+                            console.log(err);
+                        });
                     return false;
                 }
                 let renderHtml = yield this.render.getHTML();

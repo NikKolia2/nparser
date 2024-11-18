@@ -69,6 +69,8 @@ class ProductRender extends Render_1.default {
                     yield modal.click();
                 }
                 catch (err) {
+                    console.log(1);
+                    console.log(err);
                 }
                 try {
                     let bar = this.driver.findElement(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-sticky-bar-anchor')]"));
@@ -78,6 +80,8 @@ class ProductRender extends Render_1.default {
                 `, bar);
                 }
                 catch (err) {
+                    console.log(2);
+                    console.log(err);
                 }
                 try {
                     yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 5000);
