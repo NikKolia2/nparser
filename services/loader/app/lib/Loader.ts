@@ -80,7 +80,7 @@ export default class Loader {
                             element.driver.quit().then(() => {
                                 let links = fs.globSync('/tmp/.org.chromium.Chromium.*')
                                 links.forEach(link => {
-                                    fs.rmSync(link)
+                                    fs.rmSync(link, { recursive: true, force: true })
                                 })
                                 
                                 resolve(true)
