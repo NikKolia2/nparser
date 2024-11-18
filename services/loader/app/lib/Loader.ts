@@ -6,8 +6,8 @@ import { Logs, ThenableWebDriver } from "selenium-webdriver";
 import DriverConfig from "./DriverConfig";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
-import fs from 'fs'
-import { rimraf, rimrafSync } from "rimraf";
+import fs from 'fs-extra'
+import { globSync } from "glob";
 export default class Loader {
     timeOutsBeforOpenUrl: Array<number>
     timeOutsAfterSaveStep: Array<number>
@@ -79,7 +79,7 @@ export default class Loader {
                             }
     
                             element.driver.quit().then(() => {
-                                let links = fs.globSync('/tmp/.org.chromium.Chromium.*')
+                                let links = globSync('/tmp/.org.chromium.Chromium.*')
                                 links.forEach(link => {
                                     HelperService.deleteFolderRecursive(link)
                                 })

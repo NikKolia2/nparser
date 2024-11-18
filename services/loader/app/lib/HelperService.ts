@@ -44,6 +44,7 @@ export default new class HelperServise {
                     fs.unlinkSync(curPath);
                 }
             });
+
             fs.rmdirSync(path);
         }
     }
