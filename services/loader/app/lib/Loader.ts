@@ -6,7 +6,6 @@ import { Logs, ThenableWebDriver } from "selenium-webdriver";
 import DriverConfig from "./DriverConfig";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
-import fs from 'fs-extra'
 import { globSync } from "glob";
 export default class Loader {
     timeOutsBeforOpenUrl: Array<number>

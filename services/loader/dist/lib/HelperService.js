@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ChromeDriver_1 = __importDefault(require("./ChromeDriver"));
 const SeleniumStealth = require("selenium-stealth/selenium_stealth");
 const fs_1 = __importDefault(require("fs"));
+const rimraf_1 = require("rimraf");
 exports.default = new class HelperServise {
     sleep(ms) {
         return new Promise(resolve => global.setTimeout(resolve, ms));
@@ -44,7 +45,7 @@ exports.default = new class HelperServise {
     }
     deleteFolderRecursive(path) {
         if (fs_1.default.existsSync(path)) {
-            fs_1.default.rmSync(path, { recursive: true, force: true });
+            (0, rimraf_1.rimrafSync)(path);
         }
     }
 };
