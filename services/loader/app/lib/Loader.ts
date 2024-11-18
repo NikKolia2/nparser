@@ -78,10 +78,7 @@ export default class Loader {
                             }
     
                             element.driver.quit().then(() => {
-                                let links = globSync('/tmp/.org.chromium.Chromium.*')
-                                links.forEach(link => {
-                                    HelperService.deleteFolderRecursive(link)
-                                })
+                               
                                 
                                 resolve(true)
                             })
@@ -92,6 +89,11 @@ export default class Loader {
 
             let responseLoads = await Promise.all(loads);
 
+            let links = globSync('/tmp/.org.chromium.Chromium.*')
+            links.forEach(link => {
+                HelperService.deleteFolderRecursive(link)
+            })
+            
             if(validHTML.length)
                 processRepository.setStatusWaitParsingAndFlagDownloaded(validHTML);
 
