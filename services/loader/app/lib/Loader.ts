@@ -90,10 +90,10 @@ export default class Loader {
             let responseLoads = await Promise.all(loads);
 
             try {
-            let links = globSync('/tmp/.org.chromium.Chromium.*')
-            links.forEach(link => {
-                HelperService.deleteFolderRecursive(link)
-            })
+                let links = globSync('/tmp/.org.chromium.Chromium.*')
+                links.forEach(link => {
+                    HelperService.deleteFolderRecursive(link)
+                })
             }catch{
                 
             }
@@ -102,7 +102,7 @@ export default class Loader {
                 processRepository.setStatusWaitParsingAndFlagDownloaded(validHTML);
 
             if(noValidHTML.length)
-                processRepository.setStatusNewProcess(noValidHTML);
+                processRepository.setStatusNewProcessAndUpdatePosition(noValidHTML);
 
             await HelperService.sleep(this.getRandomTimeOut(this.timeOutsAfterSaveStep));
             

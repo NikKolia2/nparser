@@ -112,7 +112,7 @@ class Loader {
                 if (validHTML.length)
                     process_repository_1.default.setStatusWaitParsingAndFlagDownloaded(validHTML);
                 if (noValidHTML.length)
-                    process_repository_1.default.setStatusNewProcess(noValidHTML);
+                    process_repository_1.default.setStatusNewProcessAndUpdatePosition(noValidHTML);
                 yield HelperService_1.default.sleep(this.getRandomTimeOut(this.timeOutsAfterSaveStep));
                 return true;
             }

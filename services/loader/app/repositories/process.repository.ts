@@ -10,7 +10,7 @@ interface IProcessRepository {
 
 class ProcessRepository implements IProcessRepository { 
     getNewProcesses(limit: number): Promise<Process[]> {
-        let query = 'SELECT * FROM `process` WHERE status_id=1 LIMIT 0,'+limit
+        let query = 'SELECT * FROM `process` WHERE status_id=1 LIMIT 0,'+limit+' ORDER BY position ASC'
         
         return new Promise((resolve, reject) => {
             connection.query<Process[]>(query, (err, res) => {
@@ -31,9 +31,9 @@ class ProcessRepository implements IProcessRepository {
         });
     }
 
-    setStatusNewProcess(urls:Array<any>):Promise<number>{
+    setStatusNewProcessAndUpdatePosition(urls:Array<any>):Promise<number>{
       let q:string = '("' + urls.join('","') + '")'
-      let query = 'UPDATE `process` SET `status_id` = 1 WHERE `url` IN ' + q;
+      let query = 'UPDATE `process` SET `status_id` = 1, `position`=`position`+1 WHERE `url` IN ' + q;
 
       return new Promise((resolve, reject) => {
           connection.query<OkPacket>(query, (err, res) => {
