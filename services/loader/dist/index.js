@@ -51,7 +51,7 @@ logger.info("Программа запуущена");
 // let worker = new Worker(works)
 // worker.run()
 works_config_1.default.forEach((workerData) => {
-    const worker = new worker_threads_1.Worker('dist/libworker.process.js', { workerData });
+    const worker = new worker_threads_1.Worker('dist/lib/worker.process.js', { workerData });
     worker.on('message', (message) => {
         logger.info(message);
     });
