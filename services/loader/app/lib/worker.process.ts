@@ -5,6 +5,7 @@ import loggerConfig from "../config/logger.config";
 
 const pathToSaveHTML =  "/parser/storage/html/";
 
+process.setMaxListeners(20);
 
 let logger = log4js.getLogger("index")
 logger.level = loggerConfig.level

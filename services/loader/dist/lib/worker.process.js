@@ -40,6 +40,7 @@ const Work_1 = __importDefault(require("./Work"));
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
 const pathToSaveHTML = "/parser/storage/html/";
+process.setMaxListeners(20);
 let logger = log4js.getLogger("index");
 logger.level = logger_config_1.default.level;
 let work = new Work_1.default(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, pathToSaveHTML, workerData.countProcesses, workerData.countUrlsInOneProcess);
