@@ -10,7 +10,7 @@ export default class Worker {
     run(){
         let workers = [];
         this.works.forEach((workerData) => {
-            const worker = new workerTh.Worker('/parser/service/loader/dist/lib/worker.process.js', { workerData });
+            const worker = new workerTh.Worker('/parser/services/loader/dist/lib/worker.process.js', { workerData });
             
             worker.on('message', (message) => {
                 console.log(message);
