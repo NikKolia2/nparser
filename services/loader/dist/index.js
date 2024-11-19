@@ -28,38 +28,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const logger_config_1 = __importDefault(require("./config/logger.config"));
 const works_config_1 = __importDefault(require("./config/works.config"));
-//import Work from "./lib/Work";
-//import Worker from "./lib/Worker";
+const Work_1 = __importDefault(require("./lib/Work"));
+const Worker_1 = __importDefault(require("./lib/Worker"));
 const log4js = __importStar(require("log4js"));
-const worker_threads_1 = require("worker_threads");
+// import { Worker } from "worker_threads";
 const pathToSaveHTML = "/parser/storage/html/";
 let logger = log4js.getLogger("index");
 logger.level = logger_config_1.default.level;
 logger.info("Программа запуущена");
-// let works:Array<Work> = [];
-// worksConfig.forEach((config, index) => {
-//     works.push(new Work(
-//         config.driverConfig,
-//         config.timeOutsBeforOpenUrl,
-//         config.timeOutsAfterSaveStep,
-//         pathToSaveHTML,
-//         config.countProcesses,
-//         config.countUrlsInOneProcess
-//     ));
-//     logger.info("Добавлено потоков "+(index+1))
-// })
-// let worker = new Worker(works)
-// worker.run()
-works_config_1.default.forEach((workerData) => {
-    const worker = new worker_threads_1.Worker('./dist/lib/worker.process.js', { workerData });
-    worker.on('message', (message) => {
-        logger.info(message);
-    });
-    worker.on('error', (err) => {
-        logger.error(err);
-    });
-    worker.on('exit', (code) => {
-        if (code !== 0)
-            logger.error(`Worker stopped with exit code ${code}`);
-    });
+let works = [];
+works_config_1.default.forEach((config, index) => {
+    works.push(new Work_1.default(config.driverConfig, config.timeOutsBeforOpenUrl, config.timeOutsAfterSaveStep, pathToSaveHTML, config.countProcesses, config.countUrlsInOneProcess));
+    logger.info("Добавлено потоков " + (index + 1));
 });
+let worker = new Worker_1.default(works);
+worker.run();
+// worksConfig.forEach((workerData) => {
+//     const worker = new Worker('./dist/lib/worker.process.js', { workerData });
+//     worker.on('message', (message) => {
+//         logger.info(message)
+//     });
+//     worker.on('error', (err) => {
+//         logger.error(err);
+//     });
+//     worker.on('exit', (code) => {
+//       if (code !== 0)
+//         logger.error(`Worker stopped with exit code ${code}`);
+//     })
+// })

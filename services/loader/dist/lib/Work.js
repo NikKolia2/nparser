@@ -37,7 +37,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessWorker_1 = __importDefault(require("./ProcessWorker"));
 const process_repository_1 = __importDefault(require("../repositories/process.repository"));
-const Loader_1 = __importDefault(require("./Loader"));
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
 class Work {
@@ -58,6 +57,7 @@ class Work {
     }
     run() {
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
             if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15) {
                 let process = this.getFreeProcess();
                 if (process != null) {
@@ -65,10 +65,27 @@ class Work {
                     this.secondsFromStartProcess = this.getCurrentSeconds();
                     let workerData = yield process_repository_1.default.getNewProcesses(this.countUrlsInOneProcess);
                     if (workerData.length) {
-                        this.secondsFromStartProcess = this.getCurrentSeconds();
-                        let loader = new Loader_1.default(this.driverConfig, this.timeOutsBeforOpenUrl, this.timeOutsAfterSaveStep, this.pathToSaveHTML);
-                        yield loader.loop(workerData).then(success => {
+                        process.run();
+                        yield new Promise((resolve) => {
+                            var _a;
+                            (_a = process.worker) === null || _a === void 0 ? void 0 : _a.on('online', () => {
+                                var _a;
+                                (_a = process.worker) === null || _a === void 0 ? void 0 : _a.postMessage({ workerData: {
+                                        data: workerData,
+                                        driverConfig: this.driverConfig,
+                                        timeOutsBeforOpenUrl: this.timeOutsBeforOpenUrl,
+                                        timeOutsAfterSaveStep: this.timeOutsAfterSaveStep,
+                                        pathToSaveHTML: this.pathToSaveHTML
+                                    } });
+                                resolve(true);
+                            });
+                        });
+                        (_a = process.worker) === null || _a === void 0 ? void 0 : _a.on('message', () => {
                             process.isFree = true;
+                            this.secondsFromStartProcess = this.getCurrentSeconds();
+                        });
+                        (_b = process.worker) === null || _b === void 0 ? void 0 : _b.on('error', (err) => {
+                            this.logger.error(err);
                         });
                     }
                 }

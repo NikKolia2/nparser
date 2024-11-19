@@ -41,19 +41,36 @@ export default class Work {
         if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15){  
             let process = this.getFreeProcess()
             if(process != null){
-               
                 process.isFree = false;
                 this.secondsFromStartProcess = this.getCurrentSeconds();
                 
                 let workerData = await processRepository.getNewProcesses(this.countUrlsInOneProcess);
                 
-                if(workerData.length){
-                    this.secondsFromStartProcess = this.getCurrentSeconds();
+                if(workerData.length){    
+                    process.run();
                     
-                    let loader = new Loader(this.driverConfig, this.timeOutsBeforOpenUrl, this.timeOutsAfterSaveStep, this.pathToSaveHTML);
-                    await loader.loop(workerData).then(success => {   
-                        process.isFree = true;  
+                    await new Promise((resolve) => {
+                        process.worker?.on('online', () => {
+                            process.worker?.postMessage({workerData:{
+                                data:workerData,
+                                driverConfig:this.driverConfig,
+                                timeOutsBeforOpenUrl:this.timeOutsBeforOpenUrl,
+                                timeOutsAfterSaveStep: this.timeOutsAfterSaveStep,
+                                pathToSaveHTML:this.pathToSaveHTML
+                            }});
+
+                            resolve(true);
+                        });
                     })
+
+                    process.worker?.on('message', () => {
+                        process.isFree = true;
+                        this.secondsFromStartProcess = this.getCurrentSeconds();
+                    });
+
+                    process.worker?.on('error', (err) => {
+                        this.logger.error(err)
+                    });
                 }
                
             }

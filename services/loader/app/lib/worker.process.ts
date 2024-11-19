@@ -1,29 +1,36 @@
-const { workerData, parentPort } = require('worker_threads')
+import { workerData, parentPort } from  'worker_threads'
 import Work from "./Work";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
+import Loader from "./Loader";
 
-const pathToSaveHTML =  "/parser/storage/html/";
+let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
+loader.loop(workerData).then(success => {   
+    parentPort?.postMessage(success)
+    process.exit();
+})
 
-process.setMaxListeners(20);
+// const pathToSaveHTML =  "/parser/storage/html/";
 
-let logger = log4js.getLogger("index")
-logger.level = loggerConfig.level
+// process.setMaxListeners(20);
 
-
-let work = new Work(
-    workerData.driverConfig,
-    workerData.timeOutsBeforOpenUrl,
-    workerData.timeOutsAfterSaveStep,
-    pathToSaveHTML,
-    workerData.countProcesses,
-    workerData.countUrlsInOneProcess
-);
-
-logger.info("Процесс создан")
+// let logger = log4js.getLogger("index")
+// logger.level = loggerConfig.level
 
 
-setInterval(async () => {
-    work.run()
-}, 10);
+// let work = new Work(
+//     workerData.driverConfig,
+//     workerData.timeOutsBeforOpenUrl,
+//     workerData.timeOutsAfterSaveStep,
+//     pathToSaveHTML,
+//     workerData.countProcesses,
+//     workerData.countUrlsInOneProcess
+// );
+
+// logger.info("Процесс создан")
+
+
+// setInterval(async () => {
+//     work.run()
+// }, 10);
 
