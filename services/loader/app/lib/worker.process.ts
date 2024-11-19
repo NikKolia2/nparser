@@ -9,11 +9,11 @@ logger.level = loggerConfig.level
 
 parentPort?.on('message', (workerData) => {
     //logger.info(workerData)
-    // let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
-    // loader.loop(workerData).then(success => {   
-    //     parentPort?.postMessage(success)
-    //     process.exit();
-    // })
+    let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
+    loader.loop(workerData.data).then(success => {   
+        parentPort?.postMessage(success)
+        process.exit();
+    })
 
     logger.info("Процесс создан")
 })
