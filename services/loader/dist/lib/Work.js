@@ -70,13 +70,13 @@ class Work {
                             var _a;
                             (_a = process.worker) === null || _a === void 0 ? void 0 : _a.on('online', () => {
                                 var _a;
-                                (_a = process.worker) === null || _a === void 0 ? void 0 : _a.postMessage({ workerData: {
-                                        data: workerData,
-                                        driverConfig: this.driverConfig,
-                                        timeOutsBeforOpenUrl: this.timeOutsBeforOpenUrl,
-                                        timeOutsAfterSaveStep: this.timeOutsAfterSaveStep,
-                                        pathToSaveHTML: this.pathToSaveHTML
-                                    } });
+                                (_a = process.worker) === null || _a === void 0 ? void 0 : _a.postMessage({
+                                    data: workerData,
+                                    driverConfig: this.driverConfig,
+                                    timeOutsBeforOpenUrl: this.timeOutsBeforOpenUrl,
+                                    timeOutsAfterSaveStep: this.timeOutsAfterSaveStep,
+                                    pathToSaveHTML: this.pathToSaveHTML
+                                });
                                 resolve(true);
                             });
                         });

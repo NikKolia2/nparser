@@ -5,10 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const worker_threads_1 = require("worker_threads");
 const Loader_1 = __importDefault(require("./Loader"));
-let loader = new Loader_1.default(worker_threads_1.workerData.driverConfig, worker_threads_1.workerData.timeOutsBeforOpenUrl, worker_threads_1.workerData.timeOutsAfterSaveStep, worker_threads_1.workerData.pathToSaveHTML);
-loader.loop(worker_threads_1.workerData).then(success => {
-    worker_threads_1.parentPort === null || worker_threads_1.parentPort === void 0 ? void 0 : worker_threads_1.parentPort.postMessage(success);
-    process.exit();
+worker_threads_1.parentPort === null || worker_threads_1.parentPort === void 0 ? void 0 : worker_threads_1.parentPort.on('message', (workerData) => {
+    let loader = new Loader_1.default(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
+    loader.loop(workerData).then(success => {
+        worker_threads_1.parentPort === null || worker_threads_1.parentPort === void 0 ? void 0 : worker_threads_1.parentPort.postMessage(success);
+        process.exit();
+    });
 });
 // const pathToSaveHTML =  "/parser/storage/html/";
 // process.setMaxListeners(20);

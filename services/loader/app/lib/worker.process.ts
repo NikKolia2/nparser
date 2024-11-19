@@ -1,14 +1,17 @@
-import { workerData, parentPort } from  'worker_threads'
+import { workerData, parentPort,  } from  'worker_threads'
 import Work from "./Work";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
 import Loader from "./Loader";
 
-let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
-loader.loop(workerData).then(success => {   
-    parentPort?.postMessage(success)
-    process.exit();
+parentPort?.on('message', (workerData) => {
+    let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
+    loader.loop(workerData).then(success => {   
+        parentPort?.postMessage(success)
+        process.exit();
+    })
 })
+
 
 // const pathToSaveHTML =  "/parser/storage/html/";
 

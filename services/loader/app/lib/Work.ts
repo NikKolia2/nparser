@@ -51,13 +51,13 @@ export default class Work {
                     
                     await new Promise((resolve) => {
                         process.worker?.on('online', () => {
-                            process.worker?.postMessage({workerData:{
+                            process.worker?.postMessage({
                                 data:workerData,
                                 driverConfig:this.driverConfig,
                                 timeOutsBeforOpenUrl:this.timeOutsBeforOpenUrl,
                                 timeOutsAfterSaveStep: this.timeOutsAfterSaveStep,
                                 pathToSaveHTML:this.pathToSaveHTML
-                            }});
+                            });
 
                             resolve(true);
                         });
