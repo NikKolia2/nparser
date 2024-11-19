@@ -10,7 +10,7 @@ interface IProcessRepository {
 
 class ProcessRepository implements IProcessRepository { 
     getNewProcesses(limit: number): Promise<Process[]> {
-        let query = 'SELECT * FROM `process` WHERE status_id=1 LIMIT 0,'+limit+' ORDER BY position ASC'
+        let query = 'SELECT * FROM `process` WHERE status_id=1 ORDER BY position ASC LIMIT 0,'+limit
         
         return new Promise((resolve, reject) => {
             connection.query<Process[]>(query, (err, res) => {
