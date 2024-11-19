@@ -31,7 +31,7 @@ exports.default = [
             3500,
             3000
         ],
-        countProcesses: 2,
+        countProcesses: 1,
         countUrlsInOneProcess: 5
     },
     {
@@ -69,7 +69,7 @@ exports.default = [
             3500,
             3000
         ],
-        countProcesses: 2,
+        countProcesses: 1,
         countUrlsInOneProcess: 5
     },
     {
@@ -107,7 +107,7 @@ exports.default = [
             3500,
             3000
         ],
-        countProcesses: 2,
+        countProcesses: 1,
         countUrlsInOneProcess: 5
     }
 ];
