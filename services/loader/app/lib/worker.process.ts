@@ -4,12 +4,17 @@ import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
 import Loader from "./Loader";
 
+let logger = log4js.getLogger("worker.process")
+logger.level = loggerConfig.level
+
 parentPort?.on('message', (workerData) => {
     let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
     loader.loop(workerData).then(success => {   
         parentPort?.postMessage(success)
         process.exit();
     })
+
+    logger.info("Процесс создан")
 })
 
 
