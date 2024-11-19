@@ -33,7 +33,7 @@ export default [
             3000
         ],
 
-        countProcesses:1,
+        countProcesses:2,
         countUrlsInOneProcess:5
     },
     {
@@ -73,7 +73,7 @@ export default [
             3000
         ],
 
-        countProcesses:1,
+        countProcesses:2,
         countUrlsInOneProcess:5
     },
     {
@@ -113,7 +113,7 @@ export default [
             3000
         ],
 
-        countProcesses:1,
+        countProcesses:2,
         countUrlsInOneProcess:5
     }
 ]
