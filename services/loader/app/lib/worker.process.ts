@@ -8,6 +8,7 @@ let logger = log4js.getLogger("worker.process")
 logger.level = loggerConfig.level
 
 parentPort?.on('message', (workerData) => {
+    logger.info(workerData)
     let loader = new Loader(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
     loader.loop(workerData).then(success => {   
         parentPort?.postMessage(success)

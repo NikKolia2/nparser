@@ -33,6 +33,7 @@ const Loader_1 = __importDefault(require("./Loader"));
 let logger = log4js.getLogger("worker.process");
 logger.level = logger_config_1.default.level;
 worker_threads_1.parentPort === null || worker_threads_1.parentPort === void 0 ? void 0 : worker_threads_1.parentPort.on('message', (workerData) => {
+    logger.info(workerData);
     let loader = new Loader_1.default(workerData.driverConfig, workerData.timeOutsBeforOpenUrl, workerData.timeOutsAfterSaveStep, workerData.pathToSaveHTML);
     loader.loop(workerData).then(success => {
         worker_threads_1.parentPort === null || worker_threads_1.parentPort === void 0 ? void 0 : worker_threads_1.parentPort.postMessage(success);
