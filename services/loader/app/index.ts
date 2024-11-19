@@ -22,7 +22,7 @@ worksConfig.forEach((config, index) => {
         config.countUrlsInOneProcess
     ));
 
-    logger.info("Добавлено потоков "+index)
+    logger.info("Добавлено потоков "+(index+1))
 })
 
 let worker = new Worker(works)

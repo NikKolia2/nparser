@@ -29,11 +29,7 @@ export default class Loader {
     }
 
     async loop(data:Process[]){
-        const EventEmitter = require('events');
-        const emitter = new EventEmitter()
-        emitter.setMaxListeners(30)
         if(data.length){
-          
             let urls = data.map((item) => item.url);
             
             let validHTML:Array<string> = [];

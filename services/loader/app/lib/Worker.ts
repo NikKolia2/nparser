@@ -1,5 +1,5 @@
 import Work from "./Work"
-
+import * as workerTh from "worker_threads"
 export default class Worker {
     works:Array<Work>
 
@@ -7,11 +7,25 @@ export default class Worker {
         this.works = works
     }
 
-    async run(){
-        setInterval(async () => {
-            this.works.forEach((work) => {
-                let response = work.run()
+    run(){
+        let workers = [];
+        this.works.forEach((workerData) => {
+            const worker = new workerTh.Worker('/parser/service/loader/dist/lib/worker.process.js', { workerData });
+            
+            worker.on('message', (message) => {
+                console.log(message);
+            });
+
+            worker.on('error', (err) => {
+                console.log(err);
+            });
+
+            worker.on('exit', (code) => {
+                if (code !== 0)
+                    console.log(`Worker stopped with exit code ${code}`);
             })
-        }, 10)
+
+            workers.push(worker)
+        })
     }
 }

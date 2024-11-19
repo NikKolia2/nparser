@@ -38,7 +38,7 @@ logger.info("Программа запуущена");
 let works = [];
 works_config_1.default.forEach((config, index) => {
     works.push(new Work_1.default(config.driverConfig, config.timeOutsBeforOpenUrl, config.timeOutsAfterSaveStep, pathToSaveHTML, config.countProcesses, config.countUrlsInOneProcess));
-    logger.info("Добавлено потоков " + index);
+    logger.info("Добавлено потоков " + (index + 1));
 });
 let worker = new Worker_1.default(works);
 worker.run();

@@ -52,9 +52,6 @@ class Loader {
     }
     loop(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const EventEmitter = require('events');
-            const emitter = new EventEmitter();
-            emitter.setMaxListeners(30);
             if (data.length) {
                 let urls = data.map((item) => item.url);
                 let validHTML = [];
