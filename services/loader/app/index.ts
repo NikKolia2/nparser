@@ -29,7 +29,7 @@ logger.info("Программа запуущена")
 // worker.run()
 
 worksConfig.forEach((workerData) => {
-    const worker = new Worker('./worker.process.js', { workerData });
+    const worker = new Worker('dist/libworker.process.js', { workerData });
     worker.on('message', (message) => {
         logger.info(message)
     });
