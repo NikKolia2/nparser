@@ -26,7 +26,7 @@ export default class ProductRender extends Render {
         try {
             tabCharacters = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 
-                5000
+                2000
             )
         }catch(err){
             try {
@@ -43,7 +43,7 @@ export default class ProductRender extends Render {
             try {
                 tabCharacters = await this.driver.wait(
                     until.elementLocated(By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 
-                    20000
+                    10000
                 )
             }catch(err){
                 throw err;

@@ -37,7 +37,7 @@ class ProductRender extends Render_1.default {
             console.time(this.url);
             let tabCharacters;
             try {
-                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 5000);
+                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 2000);
             }
             catch (err) {
                 try {
@@ -48,7 +48,7 @@ class ProductRender extends Render_1.default {
                     // this.logger.info(err)
                 }
                 try {
-                    tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
+                    tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 10000);
                 }
                 catch (err) {
                     throw err;
