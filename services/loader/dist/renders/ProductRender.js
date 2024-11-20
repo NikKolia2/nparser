@@ -28,13 +28,13 @@ class ProductRender extends Render_1.default {
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.time(this.url);
             try {
                 yield this.get();
             }
             catch (err) {
                 throw err;
             }
+            console.time(this.url);
             let tabCharacters;
             try {
                 tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 5000);
@@ -84,8 +84,6 @@ class ProductRender extends Render_1.default {
                 `, bar);
                 }
                 catch (err) {
-                    console.log(2);
-                    console.log(err);
                 }
                 try {
                     yield this.driver.wait(selenium_webdriver_1.until.elementIsVisible(tabCharacters), 5000);
