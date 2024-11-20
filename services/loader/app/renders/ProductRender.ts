@@ -13,7 +13,7 @@ export default class ProductRender extends Render {
     }
 
     async render():Promise<void>{
-        console.time(this.url)
+        
         try{
             await this.get()
         }catch(err){
@@ -21,12 +21,12 @@ export default class ProductRender extends Render {
         }
       
         
-
+        console.time(this.url)
         let tabCharacters:WebElement
         try {
             tabCharacters = await this.driver.wait(
                 until.elementLocated(By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 
-                20000
+                5000
             )
         }catch(err){
             try {
@@ -80,8 +80,7 @@ export default class ProductRender extends Render {
                     element.parentNode.removeChild(element)
                 `, bar)
             }catch(err){
-                console.log(2)
-                console.log(err)
+               
             }
 
             try{

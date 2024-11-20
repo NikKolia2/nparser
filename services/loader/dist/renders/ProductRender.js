@@ -37,7 +37,7 @@ class ProductRender extends Render_1.default {
             }
             let tabCharacters;
             try {
-                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
+                tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 5000);
             }
             catch (err) {
                 try {
