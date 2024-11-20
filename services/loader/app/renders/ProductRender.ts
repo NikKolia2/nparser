@@ -20,16 +20,7 @@ export default class ProductRender extends Render {
             throw err;
         }
       
-        try {
-            let spinner = await this.driver.wait(
-                until.elementLocated(By.id('id_spinner')),
-                1000
-            );
-
-            await this.driver.wait(until.elementIsNotVisible(spinner), 5000)
-        }catch(err){
-           // this.logger.info(err)
-        }
+        
 
         let tabCharacters:WebElement
         try {
@@ -38,7 +29,25 @@ export default class ProductRender extends Render {
                 20000
             )
         }catch(err){
-           throw err
+            try {
+                let spinner = await this.driver.wait(
+                    until.elementLocated(By.id('id_spinner')),
+                    1000
+                );
+    
+                await this.driver.wait(until.elementIsNotVisible(spinner), 5000)
+            }catch(err){
+               // this.logger.info(err)
+            }
+
+            try {
+                tabCharacters = await this.driver.wait(
+                    until.elementLocated(By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 
+                    20000
+                )
+            }catch(err){
+                throw err;
+            }
         }
 
         try {

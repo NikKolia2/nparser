@@ -35,19 +35,24 @@ class ProductRender extends Render_1.default {
             catch (err) {
                 throw err;
             }
-            try {
-                let spinner = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.id('id_spinner')), 1000);
-                yield this.driver.wait(selenium_webdriver_1.until.elementIsNotVisible(spinner), 5000);
-            }
-            catch (err) {
-                // this.logger.info(err)
-            }
             let tabCharacters;
             try {
                 tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
             }
             catch (err) {
-                throw err;
+                try {
+                    let spinner = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.id('id_spinner')), 1000);
+                    yield this.driver.wait(selenium_webdriver_1.until.elementIsNotVisible(spinner), 5000);
+                }
+                catch (err) {
+                    // this.logger.info(err)
+                }
+                try {
+                    tabCharacters = yield this.driver.wait(selenium_webdriver_1.until.elementLocated(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-card-tabs-anchor')]/div[2]")), 20000);
+                }
+                catch (err) {
+                    throw err;
+                }
             }
             try {
                 yield this.driver.executeScript(`
@@ -70,8 +75,6 @@ class ProductRender extends Render_1.default {
                     yield modal.click();
                 }
                 catch (err) {
-                    console.log(1);
-                    console.log(err);
                 }
                 try {
                     let bar = this.driver.findElement(selenium_webdriver_1.By.xpath("//*[contains(@class, 'js-sticky-bar-anchor')]"));
