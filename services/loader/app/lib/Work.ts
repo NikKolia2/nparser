@@ -38,7 +38,7 @@ export default class Work {
     }
 
     async run(){
-        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15){  
+        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 5){  
             let process = this.getFreeProcess()
             if(process != null){
                 process.isFree = false;
@@ -65,7 +65,6 @@ export default class Work {
 
                     process.worker?.on('message', () => {
                         process.isFree = true;
-                        this.secondsFromStartProcess = this.getCurrentSeconds();
                     });
 
                     process.worker?.on('error', (err) => {

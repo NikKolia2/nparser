@@ -58,7 +58,7 @@ class Work {
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
-            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 15) {
+            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 5) {
                 let process = this.getFreeProcess();
                 if (process != null) {
                     process.isFree = false;
@@ -82,7 +82,6 @@ class Work {
                         });
                         (_a = process.worker) === null || _a === void 0 ? void 0 : _a.on('message', () => {
                             process.isFree = true;
-                            this.secondsFromStartProcess = this.getCurrentSeconds();
                         });
                         (_b = process.worker) === null || _b === void 0 ? void 0 : _b.on('error', (err) => {
                             this.logger.error(err);
