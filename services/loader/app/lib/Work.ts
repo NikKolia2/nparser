@@ -1,7 +1,6 @@
 import DriverConfig from "./DriverConfig";
 import ProcessWorker from "./ProcessWorker";
 import processRepository from "../repositories/process.repository";
-import Loader from "./Loader";
 import * as log4js from "log4js";
 import loggerConfig from "../config/logger.config";
 
@@ -15,6 +14,7 @@ export default class Work {
     secondsFromStartProcess:number = 0
     processes:Array<ProcessWorker> = []
     logger:log4js.Logger
+    maxTimePause:number
 
     constructor(
         driverConfig:DriverConfig,
@@ -23,6 +23,7 @@ export default class Work {
         pathToSaveHTML:string,
         countProcesses:number = 1,
         countUrlsInOneProcess:number = 5,
+        maxTimePause:number
     ){
         this.driverConfig = driverConfig
         this.timeOutsAfterSaveStep = timeOutsAfterSaveStep
@@ -30,6 +31,7 @@ export default class Work {
         this.pathToSaveHTML = pathToSaveHTML
         this.countProcesses = countProcesses
         this.countUrlsInOneProcess = countUrlsInOneProcess
+        this.maxTimePause = maxTimePause
         this.logger = log4js.getLogger("Work")
         this.logger.level = loggerConfig.level
         for(let i = 0; i < this.countProcesses; i++){
@@ -38,7 +40,7 @@ export default class Work {
     }
 
     async run(){
-        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 5){  
+        if(!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > this.maxTimePause){  
             let process = this.getFreeProcess()
             if(process != null){
                 process.isFree = false;

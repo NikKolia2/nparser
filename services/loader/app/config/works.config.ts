@@ -34,6 +34,7 @@ export default [
         ],
 
         countProcesses:3,
-        countUrlsInOneProcess:5
+        countUrlsInOneProcess:5,
+        maxTimePause:5
     },
 ]

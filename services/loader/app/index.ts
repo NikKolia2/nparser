@@ -19,7 +19,8 @@ worksConfig.forEach((config, index) => {
         config.timeOutsAfterSaveStep,
         pathToSaveHTML,
         config.countProcesses,
-        config.countUrlsInOneProcess
+        config.countUrlsInOneProcess,
+        config.maxTimePause
     ));
 
     logger.info("Добавлено потоков "+(index+1))

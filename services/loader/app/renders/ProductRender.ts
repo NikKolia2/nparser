@@ -13,6 +13,7 @@ export default class ProductRender extends Render {
     }
 
     async render():Promise<void>{
+        console.time(this.url)
         try{
             await this.get()
         }catch(err){
@@ -60,8 +61,7 @@ export default class ProductRender extends Render {
                 let modal = this.driver.findElement(By.xpath("//*[contains(@class, 'U8AUVKXLgoAaETSMMbwf')]/*[contains(@class, 'b-modal__main')]/button[@type='button']"))
                 await modal.click()
             }catch(err){
-                console.log(1)
-                console.log(err)
+               
             }
 
             try{
@@ -100,7 +100,7 @@ export default class ProductRender extends Render {
             //throw err
         }
           
-     
+        console.timeEnd(this.url)
     }
 
     _getHTML(html: string): string {

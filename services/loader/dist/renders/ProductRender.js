@@ -28,6 +28,7 @@ class ProductRender extends Render_1.default {
     }
     render() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.time(this.url);
             try {
                 yield this.get();
             }
@@ -98,6 +99,7 @@ class ProductRender extends Render_1.default {
             catch (err) {
                 //throw err
             }
+            console.timeEnd(this.url);
         });
     }
     _getHTML(html) {

@@ -40,7 +40,7 @@ const process_repository_1 = __importDefault(require("../repositories/process.re
 const log4js = __importStar(require("log4js"));
 const logger_config_1 = __importDefault(require("../config/logger.config"));
 class Work {
-    constructor(driverConfig, timeOutsBeforOpenUrl, timeOutsAfterSaveStep, pathToSaveHTML, countProcesses = 1, countUrlsInOneProcess = 5) {
+    constructor(driverConfig, timeOutsBeforOpenUrl, timeOutsAfterSaveStep, pathToSaveHTML, countProcesses = 1, countUrlsInOneProcess = 5, maxTimePause) {
         this.secondsFromStartProcess = 0;
         this.processes = [];
         this.driverConfig = driverConfig;
@@ -49,6 +49,7 @@ class Work {
         this.pathToSaveHTML = pathToSaveHTML;
         this.countProcesses = countProcesses;
         this.countUrlsInOneProcess = countUrlsInOneProcess;
+        this.maxTimePause = maxTimePause;
         this.logger = log4js.getLogger("Work");
         this.logger.level = logger_config_1.default.level;
         for (let i = 0; i < this.countProcesses; i++) {
@@ -58,7 +59,7 @@ class Work {
     run() {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
-            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > 5) {
+            if (!this.isActiveProcess() || (this.getCurrentSeconds() - this.secondsFromStartProcess) > this.maxTimePause) {
                 let process = this.getFreeProcess();
                 if (process != null) {
                     process.isFree = false;
