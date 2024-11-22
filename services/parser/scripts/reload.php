@@ -18,7 +18,8 @@ $products = $productModel->query()
 
 foreach($products as $product){
     if(empty($product["url"]))
-        continue
+        continue;
+    
     $html = new LoaderResponse($product["url"]);
     $filename = $html->getHashUrl();
     unlink(dirname(__DIR__, 3)."/storage/html/$filename.html");
