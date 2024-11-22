@@ -1,7 +1,7 @@
 import DomParser from 'dom-parser';
 import Render from '../lib/Render';
 import { By, until, WebElement, WebElementPromise } from 'selenium-webdriver';
-
+import { JSDOM } from "jsdom";
 export default class ProductRender extends Render {
     async get(): Promise<void> {
         try{
@@ -104,7 +104,6 @@ export default class ProductRender extends Render {
                 20000
             )
         }catch(err){
-           
             //throw err
         }
           
@@ -112,9 +111,18 @@ export default class ProductRender extends Render {
     }
 
     _getHTML(html: string): string {
-        // let dom = DomParser.parseFromString(html);
-        // let tags = dom.getElementsByTagName("style");
-      
+        let dom = new JSDOM(html)
+        dom.window.document.querySelectorAll("style").forEach((item) => {
+            item.remove();
+        });
+
+        dom.window.document.querySelectorAll("script").forEach((item) => {
+            item.remove();
+        })
+
+
+        html = dom.window.document.getElementsByTagName('html')[0].innerHTML
+    
         return html;
     }
 }

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Render_1 = __importDefault(require("../lib/Render"));
 const selenium_webdriver_1 = require("selenium-webdriver");
+const jsdom_1 = require("jsdom");
 class ProductRender extends Render_1.default {
     get() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -104,8 +105,14 @@ class ProductRender extends Render_1.default {
         });
     }
     _getHTML(html) {
-        // let dom = DomParser.parseFromString(html);
-        // let tags = dom.getElementsByTagName("style");
+        let dom = new jsdom_1.JSDOM(html);
+        dom.window.document.querySelectorAll("style").forEach((item) => {
+            item.remove();
+        });
+        dom.window.document.querySelectorAll("script").forEach((item) => {
+            item.remove();
+        });
+        html = dom.window.document.getElementsByTagName('html')[0].innerHTML;
         return html;
     }
 }
