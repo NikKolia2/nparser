@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../db"));
 class ProcessRepository {
     getNewProcesses(limit) {
-        let query = 'SELECT * FROM `process` WHERE status_id=1 ORDER BY position ASC LIMIT 0,' + limit;
+        let query = 'SELECT * FROM `process` WHERE status_id=1 and position <= 5 ORDER BY position ASC LIMIT 0,' + limit;
         return new Promise((resolve, reject) => {
             db_1.default.query(query, (err, res) => {
                 if (err)
