@@ -14,7 +14,7 @@ export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
-        $pathToSave = $pathToSave.iconv("UTF-8", "CP1251", $category["h1"]);
+        $pathToSave = $pathToSave.utf8_decode($category["h1"]);
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
         export($c, $pathToSave."/");
@@ -42,8 +42,11 @@ function exportByCateglry($categoryId, $pathToSave){
     $sql = "SELECT * FROM products WHERE category_id in ({$categoriesIds}) and h1 is not null";
 
     $products = $pdo->query($sql)->fetchAll();
-    $productsIds = implode(",", array_column($products, "id"));
+    if(empty($products))
+        return 0;
     
+    $productsIds = implode(",", array_column($products, "id"));
+   
     echo "Найдено товаров " . count($products);
     echo PHP_EOL;
 
