@@ -60,7 +60,7 @@ function exportByCateglry($category, $pathToSave){
 
     $writer = WriterEntityFactory::createXLSXWriter();
     $fileName = "{$globalConfig['database']['name']}_".date("Y-m-d_H-i-s")."_".HelperService::translite($category["h1"])."_products.xlsx";
-    $writer->openToFile($pathToSave."/". $fileName);
+    $writer->openToFile($pathToSave. $fileName);
  
 
     $headLines = [
