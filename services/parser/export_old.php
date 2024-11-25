@@ -20,7 +20,7 @@ function export($categories, $pathToSave){
 
         if(($category["level"] = 1 || ($category["level"] = 2) && $category['count_categories'] > 0)){
             $p = $pathToSave.HelperService::translite($category["h1"]); 
-            if(!file_exists($pathToSave)){
+            if(!file_exists($p)){
                 mkdir($p, 0777, true);
             }
         }
