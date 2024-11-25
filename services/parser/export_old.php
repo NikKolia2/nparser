@@ -28,7 +28,7 @@ function getChildrenCategories($categoryId){
 
 function exportByCateglry($categoryId, $pathToSave){
     global $pdo, $globalConfig;
-    $category = $pdo->query("SELECT *, (SELECT COUTN(*) FROM categories WHERE main_category_id='{$categoryId}' and is_pag=0) as count_categories FROM categories WHERE id='{$categoryId}'")->fetch();
+    $category = $pdo->query("SELECT (SELECT COUTN(*) FROM categories WHERE main_category_id='{$categoryId}' and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$categoryId}'")->fetch();
    
     if(!file_exists($pathToSave) && ($category["level"] = 1 || $category["level"] = 2) && $category['count_categories'] > 0){
         mkdir($pathToSave, 0777, true);
