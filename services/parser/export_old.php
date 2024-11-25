@@ -15,6 +15,7 @@ export($categories, $pathToSave);
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
         $pathToSave = $pathToSave.utf8_decode($category["h1"]);
+        mkdir($pathToSave);
         return 0;
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
