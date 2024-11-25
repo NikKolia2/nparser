@@ -5,7 +5,6 @@ ini_set('memory_limit', '10000M');
 require('config/bootstrap.php');
 
 use App\Services\HelperService;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 $categories = $pdo->query("SELECT * FROM categories WHERE main_category_id=0")->fetchAll();
@@ -14,9 +13,7 @@ export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
-        
-        $p = $pathToSave.HelperService::translite($category["h1"]);
-       
+        $p = $pathToSave.HelperService::translite($category["h1"]); 
         exportByCateglry($category["id"], $p);
         $c = getChildrenCategories($category["id"]);
         export($c, $p."/");
@@ -33,7 +30,7 @@ function exportByCateglry($categoryId, $pathToSave){
     global $pdo, $globalConfig;
     $category = $pdo->query("SELECT * FROM categories WHERE id='{$categoryId}'")->fetch();
    
-    if(!file_exists($pathToSave)){
+    if(!file_exists($pathToSave) && ($category["level"] = 1 || $category["level"] = 2)){
         mkdir($pathToSave, 0777, true);
     }
 
@@ -58,18 +55,17 @@ function exportByCateglry($categoryId, $pathToSave){
  
 
     $headLines = [
-        'code', 'h1', 'Фото', 'Path', 'Description', 'Complectation', 'Keywords',
-        'Brand', 'Country', 'информация об упаковке', 'Технические характеристики', 'Есть на складе шт.'
+        'Код товара', 'Цена', 'Старая цена', 'Наименование', 'Фото', 'Артикул', 'Бренд', 'Характеристики'
     ];
 
     echo "Получаем опции";
     // получаем массив с уникальными опциями
     $sql = "SELECT DISTINCT option_name, option_key FROM `product_options` WHERE product_id IN (".$productsIds.") ORDER BY option_name ASC";
-    print_r($sql);
+
     $stm = $pdo->prepare($sql);
     $stm->execute([]);
     $optionsList = $stm->fetchAll();
-    echo "Получили опции";
+
     // продолжим заполнять шапку таблицы названиями опций
     $j = count($headLines) + 1;
     foreach ($optionsList as $option) {
@@ -83,6 +79,7 @@ function exportByCateglry($categoryId, $pathToSave){
 
     // $row = 1;
     foreach ($products as $product) {
+        $head = $headLines;
         // начальные координаты в сетке таблицы, соответствуют ячейке A1
         //$column = 1;
         // сдвинемся в таблице на строчку ниже
@@ -129,8 +126,8 @@ function exportByCateglry($categoryId, $pathToSave){
         // массив данных для одной строки в файле
         // частично заполняем его вручную
         $data = [
-            $product['article'], $product['h1'], $images, $product['breadcrumbs'],
-            $product['description'], $product['complectation'], $product['keywords'], $product['brand'], $product['country'], $product['infoPack'],$allOptions, $product["warehouse"]
+            $product['code'], $product['price'], $product["oldProce"],$product['h1'], $images,
+            $product['article'], $product['brand'], $allOptions, 
         ];
 
 
