@@ -16,7 +16,7 @@ function export($categories, $pathToSave){
 
     foreach ($categories as $category) {
         $p = $pathToSave;
-        $category = $pdo->query("SELECT (SELECT COUNT(*) FROM categories WHERE main_category_id='{$category['id']}' and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$category['id']}'")->fetch();
+        $category = $pdo->query("SELECT (SELECT COUNT(*) FROM categories WHERE main_category_id=c.id and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$category['id']}'")->fetch();
 
         if(($category["level"] = 1 || ($category["level"] = 2) && $category['count_categories'] > 0)){
             $p = $pathToSave.HelperService::translite($category["h1"]); 
