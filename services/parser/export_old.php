@@ -32,7 +32,7 @@ function exportByCateglry($categoryId, $pathToSave){
     $category = $pdo->query("SELECT * FROM categories WHERE id='{$categoryId}'")->fetch();
    
     if(!file_exists($pathToSave)){
-        mkdir($pathToSave);
+        mkdir($pathToSave, 0777, true);
     }
 
     $categoriesPag = $pdo->query("SELECT id FROM categories WHERE main_category_id='{$categoryId}' and is_pag=1")->fetchAll();
