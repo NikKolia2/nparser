@@ -14,6 +14,7 @@ export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
+        echo mb_detect_encoding($category["h1"]);
         $pathToSave = $pathToSave.iconv(mb_detect_encoding($category["h1"]),"cp866",$category["h1"]);
         mkdir($pathToSave, 0777, true);
         return 0;
