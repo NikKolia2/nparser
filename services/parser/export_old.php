@@ -24,12 +24,13 @@ function export($categories, $pathToSave){
             if(!file_exists($p)){
                 mkdir($p, 0777, true);
             }
+            $p = $p."/";
         }
 
       
         exportByCateglry($category, $p);
         $c = getChildrenCategories($category["id"]);
-        export($c, $p."/");
+        export($c, $p);
     }
 }
 
