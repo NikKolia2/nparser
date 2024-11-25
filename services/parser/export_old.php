@@ -4,76 +4,83 @@ ini_set('memory_limit', '10000M');
 
 require('config/bootstrap.php');
 
+use App\Services\HelperService;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
-// $spreadsheet = new Spreadsheet();
-// $activeWorksheet = $spreadsheet->getActiveSheet();
-// $activeWorksheet->setCellValue('A1', 'Hello World !');
+$categories = $pdo->query("SELECT * FROM categories WHERE main_category_id=0")->fetchAll();
+$pathToSave = dirname(__DIR__, 2)."/storage/export/xlsx/";
+export($categories, $pathToSave);
 
-// $writer = new Xlsx($spreadsheet);
-// $writer->save('hello world.xlsx');
+function export($categories, $pathToSave){
+    foreach ($categories as $category) {
+        $pathToSave = $pathToSave.$category["h1"];
+        exportByCateglry($category["id"], $pathToSave);
+        $c = getChildrenCategories($category["id"]);
+        export($c, $pathToSave."/");
+    }
+}
 
-// $sql = "SELECT * FROM categories WHERE parent_id is null";
-// $stm = $pdo->prepare($sql);
-// $stm->execute([]);
-// $categories = $stm->fetchAll();
+function getChildrenCategories($categoryId){
+    global $pdo;
+    $categories = $pdo->query("SELECT * FROM categories WHERE main_category_id=$categoryId and is_pag=0")->fetchAll();
+    return $categories;
+}
 
-// print_r(count($categories));
+function exportByCateglry($categoryId, $pathToSave){
+    global $pdo, $globalConfig;
+    $category = $pdo->query("SELECT * FROM categories WHERE id='{$categoryId}'")->fetch();
+   
+    if(!file_exists($pathToSave)){
+        mkdir($pathToSave);
+    }
 
-$spreadsheet = new Spreadsheet();
-$categoryItteration = 0;
-//foreach ($categories as $category) {
-    // CREATE A NEW SPREADSHEET + POPULATE DATA
-    // $sheet = $spreadsheet->getActiveSheet();
-    // $sheet->setTitle('Batch');
-    // Add some data
-    $spreadsheet->createSheet();
-    // Add some data
-    $spreadsheet->setActiveSheetIndex($categoryItteration);
-    $tab = $spreadsheet->getActiveSheet();
-    $tab->setTitle('Результат парсинга');
+    $categoriesPag = $pdo->query("SELECT id FROM categories WHERE main_category_id='{$categoryId}' and is_pag=1")->fetchAll();
+    $categoriesIds = array_merge([$category["id"]], array_column($categoriesPag, "id"));
+    $categoriesIds = implode(",", $categoriesIds);
 
-    $sql = "SELECT * FROM products";
-  //  $stm->execute([]);
+    $sql = "SELECT * FROM products WHERE category_id in ({$categoriesIds}) and h1 is not null";
+
     $products = $pdo->query($sql)->fetchAll();
+    $productsIds = implode(",", array_column($products, "id"));
+    
     echo "Найдено товаров " . count($products);
     echo PHP_EOL;
 
-
+    $writer = WriterEntityFactory::createXLSXWriter();
+    $fileName = "{$globalConfig['database']['name']}_".date("Y-m-d_H-i-s")."_".HelperService::translite($category["h1"])."_products.xlsx";
+    $writer->openToFile($pathToSave."/". $fileName);
+ 
 
     $headLines = [
         'code', 'h1', 'Фото', 'Path', 'Description', 'Complectation', 'Keywords',
         'Brand', 'Country', 'информация об упаковке', 'Технические характеристики', 'Есть на складе шт.'
     ];
 
-    $i = 1;
-    foreach ($headLines as $headLine) {
-        $tab->setCellValueByColumnAndRow($i, 1, $headLine);
-        $i++;
-    }
-
+    echo "Получаем опции";
     // получаем массив с уникальными опциями
-    $sql = "SELECT DISTINCT option_name, option_key FROM `product_options` ORDER BY option_name ASC";
+    $sql = "SELECT DISTINCT option_name, option_key FROM `product_options` WHERE product_id IN (".$productsIds.") ORDER BY option_name ASC";
     $stm = $pdo->prepare($sql);
     $stm->execute([]);
     $optionsList = $stm->fetchAll();
-
+    echo "Получили опции";
     // продолжим заполнять шапку таблицы названиями опций
     $j = count($headLines) + 1;
     foreach ($optionsList as $option) {
-        $tab->setCellValueByColumnAndRow($j, 1, $option['option_name']);
-        $j++;
+        $headLines[] = $option['option_name'];
+        // $tab->setCellValue([$j, 1], $option['option_name']);
+        // $j++;
     }
 
+    $rowFromValues = WriterEntityFactory::createRowFromArray($headLines);
+    $writer->addRow($rowFromValues);
 
-
-    $row = 1;
+    // $row = 1;
     foreach ($products as $product) {
         // начальные координаты в сетке таблицы, соответствуют ячейке A1
-        $column = 1;
+        //$column = 1;
         // сдвинемся в таблице на строчку ниже
-        $row++;
+       // $row++;
 
         // получаем ссылку на изображение и имя загруженнного файла
         $sql = "SELECT * FROM product_images WHERE product_id=:productId";
@@ -126,18 +133,12 @@ $categoryItteration = 0;
             $data[] = !empty($option) ? $option['option_value'] : '';
         }
 
-        // $columnTemp = 1;
-        foreach ($data as $d) {
-            $tab->setCellValueByColumnAndRow($column, $row, $d);
-            $column++;
-        }
+        $rowFromValues = WriterEntityFactory::createRowFromArray($data);
+        $writer->addRow($rowFromValues);
     }
+
     echo "===============================================";
     echo PHP_EOL;
 
-    $categoryItteration++;
-//}
-
-$fileName = "{$globalConfig['database']['name']}_".date("Y-m-d_H-i-s")."_products.xlsx";
-$writer = new Xlsx($spreadsheet);
-$writer->save(dirname(__DIR__, 2)."/storage/export/xlsx/" . $fileName);
+    $writer->close();
+}

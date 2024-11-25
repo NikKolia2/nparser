@@ -72,6 +72,8 @@ export default class Work {
                     process.worker?.on('error', (err) => {
                         this.logger.error(err)
                     });
+                }else{
+                    process.isFree = true;
                 }
                
             }

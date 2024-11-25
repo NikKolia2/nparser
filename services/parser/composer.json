@@ -3,7 +3,8 @@
         "phpoffice/phpspreadsheet": "^1.29",
         "hemiframe/php-query-builder": "^1.6",
         "php-webdriver/webdriver": "*",
-        "monolog/monolog": "^3.7"
+        "monolog/monolog": "^3.7",
+        "box/spout": "^3.3"
     },
 
    "autoload": {
