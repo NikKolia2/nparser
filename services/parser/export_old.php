@@ -30,7 +30,7 @@ function exportByCateglry($categoryId, $pathToSave){
     global $pdo, $globalConfig;
     $category = $pdo->query("SELECT (SELECT COUNT(*) FROM categories WHERE main_category_id='{$categoryId}' and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$categoryId}'")->fetch();
    
-    if(!file_exists($pathToSave) && ($category["level"] = 1 || $category["level"] = 2) && $category['count_categories'] > 0){
+    if(!file_exists($pathToSave) && ($category["level"] = 1 || ($category["level"] = 2 && $category['count_categories'] > 0))){
         mkdir($pathToSave, 0777, true);
     }
 
