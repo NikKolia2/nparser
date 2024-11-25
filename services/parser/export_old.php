@@ -23,7 +23,7 @@ function export($categories, $pathToSave){
             mkdir($p, 0777, true);
         }
       
-        exportByCateglry($category["id"], $p);
+        exportByCateglry($category, $p);
         $c = getChildrenCategories($category["id"]);
         export($c, $p."/");
     }
