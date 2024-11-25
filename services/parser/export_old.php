@@ -15,6 +15,7 @@ export($categories, $pathToSave);
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
         $pathToSave = $pathToSave.utf8_decode($category["h1"]);
+        return 0;
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
         export($c, $pathToSave."/");
@@ -44,7 +45,7 @@ function exportByCateglry($categoryId, $pathToSave){
     $products = $pdo->query($sql)->fetchAll();
     if(empty($products))
         return 0;
-    
+
     $productsIds = implode(",", array_column($products, "id"));
    
     echo "Найдено товаров " . count($products);
