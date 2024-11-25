@@ -14,7 +14,7 @@ export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
-        $pathToSave = $pathToSave.$category["h1"];
+        $pathToSave = $pathToSave.HelperService::translite($category["h1"]);
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
         export($c, $pathToSave."/");
