@@ -12,8 +12,17 @@ $pathToSave = dirname(__DIR__, 2)."/storage/export/xlsx/";
 export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
+    global $pdo;
+
     foreach ($categories as $category) {
-        $p = $pathToSave.HelperService::translite($category["h1"]); 
+        $p = $pathToSave;
+        $category = $pdo->query("SELECT (SELECT COUNT(*) FROM categories WHERE main_category_id='{$category['id']}' and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$categoryId}'")->fetch();
+   
+        if(!file_exists($pathToSave) && ($category["level"] = 1 || ($category["level"] = 2 && $category['count_categories'] > 0))){
+            $p = $pathToSave.HelperService::translite($category["h1"]); 
+            mkdir($p, 0777, true);
+        }
+      
         exportByCateglry($category["id"], $p);
         $c = getChildrenCategories($category["id"]);
         export($c, $p."/");
@@ -26,15 +35,10 @@ function getChildrenCategories($categoryId){
     return $categories;
 }
 
-function exportByCateglry($categoryId, $pathToSave){
+function exportByCateglry($category, $pathToSave){
     global $pdo, $globalConfig;
-    $category = $pdo->query("SELECT (SELECT COUNT(*) FROM categories WHERE main_category_id='{$categoryId}' and is_pag=0) as count_categories, c.* FROM categories as c WHERE id='{$categoryId}'")->fetch();
-   
-    if(!file_exists($pathToSave) && ($category["level"] = 1 || ($category["level"] = 2 && $category['count_categories'] > 0))){
-        mkdir($pathToSave, 0777, true);
-    }
 
-    $categoriesPag = $pdo->query("SELECT id FROM categories WHERE main_category_id='{$categoryId}' and is_pag=1")->fetchAll();
+    $categoriesPag = $pdo->query("SELECT id FROM categories WHERE main_category_id='{$category['id']}' and is_pag=1")->fetchAll();
     $categoriesIds = array_merge([$category["id"]], array_column($categoriesPag, "id"));
     $categoriesIds = implode(",", $categoriesIds);
 
