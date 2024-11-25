@@ -14,7 +14,7 @@ export($categories, $pathToSave);
 
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
-        $pathToSave = $pathToSave.HelperService::translite($category["h1"]);
+        $pathToSave = $pathToSave.iconv("UTF-8", "CP1251", $category["h1"]);
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
         export($c, $pathToSave."/");
@@ -60,6 +60,7 @@ function exportByCateglry($categoryId, $pathToSave){
     echo "Получаем опции";
     // получаем массив с уникальными опциями
     $sql = "SELECT DISTINCT option_name, option_key FROM `product_options` WHERE product_id IN (".$productsIds.") ORDER BY option_name ASC";
+    print_r($sql);
     $stm = $pdo->prepare($sql);
     $stm->execute([]);
     $optionsList = $stm->fetchAll();
