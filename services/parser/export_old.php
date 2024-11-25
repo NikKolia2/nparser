@@ -15,7 +15,7 @@ export($categories, $pathToSave);
 function export($categories, $pathToSave){
     foreach ($categories as $category) {
         $pathToSave = $pathToSave.iconv("UTF-8","Windows-1251",$category["h1"]);
-        mkdir($pathToSave);
+        mkdir($pathToSave, 0777, true);
         return 0;
         exportByCateglry($category["id"], $pathToSave);
         $c = getChildrenCategories($category["id"]);
