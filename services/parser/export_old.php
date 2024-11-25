@@ -126,7 +126,7 @@ function exportByCateglry($categoryId, $pathToSave){
         // массив данных для одной строки в файле
         // частично заполняем его вручную
         $data = [
-            $product['code'], $product['price'], $product["oldProce"],$product['h1'], $images,
+            $product['code'], $product['price'], $product["oldPrice"],$product['h1'], $images,
             $product['article'], $product['brand'], $allOptions, 
         ];
 
